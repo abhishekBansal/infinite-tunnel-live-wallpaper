@@ -12,6 +12,10 @@ import rajawali.math.vector.Vector3;
 import rajawali.primitives.Plane;
 import rajawali.renderer.RajawaliRenderer;
 
+/**
+ * author: Abhishek Bansal
+ */
+
 public class InfiniteTunnelRenderer extends RajawaliRenderer {
 
     public InfiniteTunnelRenderer(Context context) {
@@ -29,9 +33,9 @@ public class InfiniteTunnelRenderer extends RajawaliRenderer {
             Plane fullScreenPlane =
                     new Plane(planeWidth, planeHeight, 1, 1, Vector3.Axis.Z);
             fullScreenPlane.setRotY(180);
-            CustomRawVertexShader vertexShader = new CustomRawVertexShader();
+            TunnelVertexShader vertexShader = new TunnelVertexShader();
 
-            CustomRawFragmentShader fragmentShader = new CustomRawFragmentShader();
+            TunnelFragmentShader fragmentShader = new TunnelFragmentShader();
             fragmentShader.setViewportHeight(getViewportHeight());
             fragmentShader.setViewportWidth(getViewportWidth());
 
