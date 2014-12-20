@@ -53,7 +53,14 @@ public class InfiniteTunnelRenderer extends RajawaliRenderer {
     private float mTime = 0.0f;
 	public void onDrawFrame(GL10 glUnused) {
 		super.onDrawFrame(glUnused);
-        mTime += .007f;
+        mTime += .01f;
+
+        // tunnel gets fucked up in sometime if we don't do this
+        // as of now not sure if its a hack or its needed
+        // and 2 is just a magic number.. I got it by hit and trial
+        if(mTime > 2.0f)
+            mTime = 0.0f;
+
         mMaterial.setTime(mTime);
-	}
+    }
 }
