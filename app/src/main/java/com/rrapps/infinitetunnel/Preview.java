@@ -9,8 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.abhishek.infinitetunnel.R;
-
 public class Preview extends Activity {
 
 	@Override
@@ -31,7 +29,6 @@ public class Preview extends Activity {
 		} else {
 			/*
 			 * Open live wallpaper picker (API Level 15 or lower).
-			 * 
 			 * Display a quick little message (toast) with instructions.
 			 */
 			intent.setAction(WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER);

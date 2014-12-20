@@ -1,12 +1,22 @@
 package com.rrapps.infinitetunnel;
 
-import android.opengl.GLES20;
-
 import rajawali.materials.shaders.FragmentShader;
 import rajawali.util.RawShaderLoader;
 
 public class CustomRawFragmentShader extends FragmentShader {
-	private int muTextureInfluenceHandle;
+
+    public void setViewportHeight(float mViewportHeight) {
+        this.mViewportHeight = mViewportHeight;
+    }
+
+    public void setViewportWidth(float mViewportWidth) {
+        this.mViewportWidth = mViewportWidth;
+    }
+
+    private float mViewportHeight;
+    private float mViewportWidth;
+
+    private int mResolutionHandle;
 	
 	public CustomRawFragmentShader()
 	{
@@ -23,20 +33,19 @@ public class CustomRawFragmentShader extends FragmentShader {
 	
 	@Override
 	public void main() {
-
 	}
 	
 	@Override
 	public void setLocations(final int programHandle)
 	{
 		super.setLocations(programHandle);
-		muTextureInfluenceHandle = getUniformLocation(programHandle, "uInfluencemyTex");
+        //mResolutionHandle = getUniformLocation(programHandle, "uResolution");
 	}
 	
 	@Override
 	public void applyParams() 
 	{
 		super.applyParams();
-		GLES20.glUniform1f(muTextureInfluenceHandle, .5f);
+		//GLES20.glUniform2f(mResolutionHandle, mViewportWidth, mViewportHeight);
 	}
 }

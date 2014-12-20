@@ -1,61 +1,42 @@
 package com.rrapps.infinitetunnel;
 
 import android.content.Context;
-import android.view.animation.AccelerateDecelerateInterpolator;
-
-import com.abhishek.infinitetunnel.R;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import rajawali.animation.Animation.RepeatMode;
-import rajawali.animation.Animation3D;
-import rajawali.animation.RotateOnAxisAnimation;
-import rajawali.lights.ALight;
-import rajawali.lights.DirectionalLight;
 import rajawali.materials.Material;
-import rajawali.materials.methods.DiffuseMethod;
-import rajawali.materials.textures.ATexture.TextureException;
+import rajawali.materials.textures.ATexture;
 import rajawali.materials.textures.Texture;
 import rajawali.math.vector.Vector3;
-import rajawali.primitives.Cube;
 import rajawali.renderer.RajawaliRenderer;
 
 public class Renderer extends RajawaliRenderer {
-	public Renderer(Context context) {
+
+    public Renderer(Context context) {
 		super(context);
 	}
 
 	public void initScene() {
-		ALight light = new DirectionalLight(-1, 0, -1);
-		light.setPower(2);
-		
-		getCurrentScene().addLight(light);
-		
-		getCurrentCamera().setPosition(0, 0, 7);
+		getCurrentCamera().setPosition(0, 0, 4);
 		getCurrentCamera().setLookAt(0, 0, 0);
 
 		try {
-			Cube cube = new Cube(1);
-			Material material = new Material();
-			material.enableLighting(true);
-			material.setDiffuseMethod(new DiffuseMethod.Lambert());
-			material.addTexture(new Texture("rajawaliTex", R.drawable.rajawali_tex));
-			material.setColorInfluence(0);
-			cube.setMaterial(material);
-			getCurrentScene().addChild(cube);
+            rajawali.primitives.Plane fullScreenPlane = new rajawali.primitives.Plane(1.0f, 1.0f, 1, 1, Vector3.Axis.Z);
+            fullScreenPlane.setRotY(180);
+            CustomRawVertexShader vertexShader = new CustomRawVertexShader();
 
-			Vector3 axis = new Vector3(3, 1, 6);
-			axis.normalize();
-			Animation3D anim = new RotateOnAxisAnimation(axis, 0, 360);
-			anim.setDurationMilliseconds(8000);
-			anim.setRepeatMode(RepeatMode.INFINITE);
-			anim.setInterpolator(new AccelerateDecelerateInterpolator());
-			anim.setTransformable3D(cube);
-			getCurrentScene().registerAnimation(anim);
-			anim.play();
-			
-		} catch (TextureException e) {
+            CustomRawFragmentShader fragmentShader = new CustomRawFragmentShader();
+            fragmentShader.setViewportHeight(getViewportHeight());
+            fragmentShader.setViewportWidth(getViewportWidth());
+
+            Material material = new Material(vertexShader, fragmentShader);
+            material.addTexture(new Texture("uTunnelTexture", R.drawable.round_brick_tilable));
+            //material.enableTime(true);
+            fullScreenPlane.setMaterial(material);
+
+            getCurrentScene().addChild(fullScreenPlane);
+		} catch (ATexture.TextureException e) {
 			e.printStackTrace();
 		}
 	}

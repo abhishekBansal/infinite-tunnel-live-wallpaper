@@ -1,6 +1,5 @@
 package com.rrapps.infinitetunnel;
 
-import com.abhishek.infinitetunnel.R;
 
 import rajawali.materials.shaders.VertexShader;
 import rajawali.util.RawShaderLoader;

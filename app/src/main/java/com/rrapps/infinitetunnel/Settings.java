@@ -4,8 +4,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 
-import com.abhishek.infinitetunnel.R;
-
 import rajawali.wallpaper.Wallpaper;
 
 // Deprecated PreferenceActivity methods are used for API Level 10 (and lower) compatibility
