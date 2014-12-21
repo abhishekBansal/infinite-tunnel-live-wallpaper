@@ -8,10 +8,10 @@
     <string name="lwp_name">Infinite Tunnel</string>
 
     <!-- Description in Live Wallpaper Picker list -->
-    <string name="lwp_desc">Example wallpaper that uses Rajawali, an open-source OpenGL ES 2.x engine for Android.</string>
+    <string name="lwp_desc">An Infinitely moving tunnel as android live wallpaper.</string>
 
     <!-- Author -->
-    <string name="lwp_author">Rajawali Contributors</string>
+    <string name="lwp_author">Abhishek Bansal</string>
 
     <!-- Quick little message displayed when the Live Wallpaper Picker is opened -->
     <!-- The message text is the prefix, lwp_name, and suffix concatenated -->
