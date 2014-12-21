@@ -20,6 +20,7 @@ public class InfiniteTunnelRenderer extends RajawaliRenderer {
 
     public InfiniteTunnelRenderer(Context context) {
 		super(context);
+        setFrameRate(30);
 	}
 
     Material mMaterial;

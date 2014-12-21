@@ -11,8 +11,10 @@ void main(void)
     float scaledTime = uTime * speed;
     // clamp pixel posiiton in [-1,1]
     vec2 p = -1.0 + 2.0 * gl_FragCoord.xy / uResolution.xy;
+
+    // this is to fix aspect ratio of tunnel center
     p.y = p.y * uResolution.y/uResolution.x;
-    
+
     vec2 uv;
 
     // calculate angle of current pixel from origin
