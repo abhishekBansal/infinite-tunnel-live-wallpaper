@@ -7,10 +7,12 @@ uniform sampler2D uTunnelTexture;
 
 void main(void)
 {
-    float speed = 0.2;
+    float speed = 1.0;
     float scaledTime = uTime * speed;
     // clamp pixel posiiton in [-1,1]
     vec2 p = -1.0 + 2.0 * gl_FragCoord.xy / uResolution.xy;
+    p.y = p.y * uResolution.y/uResolution.x;
+    
     vec2 uv;
 
     // calculate angle of current pixel from origin
