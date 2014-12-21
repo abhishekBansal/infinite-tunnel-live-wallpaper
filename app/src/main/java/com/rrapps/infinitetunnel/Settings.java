@@ -7,18 +7,17 @@ import android.preference.PreferenceActivity;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
-import rajawali.wallpaper.Wallpaper;
-
 // Deprecated PreferenceActivity methods are used for API Level 10 (and lower) compatibility
 // https://developer.android.com/guide/topics/ui/settings.html#Overview
 @SuppressWarnings("deprecation")
 public class Settings extends PreferenceActivity implements
 		SharedPreferences.OnSharedPreferenceChangeListener {
 
+    public static String SHARED_PREF_NAME = "RRApps.InfiniteTunnelWallpaperSharedPref";
+
 	protected void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
-		getPreferenceManager().setSharedPreferencesName(
-				Wallpaper.SHARED_PREFS_NAME);
+		getPreferenceManager().setSharedPreferencesName(SHARED_PREF_NAME);
 		addPreferencesFromResource(R.xml.settings);
 		getPreferenceManager().getSharedPreferences()
 				.registerOnSharedPreferenceChangeListener(this);
