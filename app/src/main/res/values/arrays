@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="Textures">
+        <item name="1">Red Brick</item>
+        <item name="2">Stone Brick</item>
+        <item name="3">Nebula</item>
+        <item name="4">Stone Wall</item>
+    </string-array>
+
+    <string-array name="TextureDrawables">
+        <item name="1">1</item>
+        <item name="2">2</item>
+        <item name="3">3</item>
+        <item name="4">4</item>
+    </string-array>
+
+</resources>

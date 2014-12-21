@@ -9,7 +9,7 @@ public class Service extends Wallpaper {
 
 	public Engine onCreateEngine() {
 		mRenderer = new InfiniteTunnelRenderer(this);
-		return new WallpaperEngine(this.getSharedPreferences(Settings.SHARED_PREF_NAME,
+		return new WallpaperEngine(this.getSharedPreferences(SettingsActivity.SHARED_PREF_NAME,
 				                                            Context.MODE_PRIVATE),
                                                             getBaseContext(),
                                                             mRenderer,

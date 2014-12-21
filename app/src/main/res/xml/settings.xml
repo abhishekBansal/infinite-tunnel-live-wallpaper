@@ -2,13 +2,13 @@
     android:key="RRApps.InfiniteTunnelWallpaperSharedPref"
     android:title="@string/settings_title" >
 
-    <PreferenceCategory android:title="blah">
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="prefLockScreen"
-            android:summary="Lock The Screen With Password"
-            android:title="Screen Lock" >
-        </CheckBoxPreference>
+    <PreferenceCategory android:title="@string/pref_category_title">
+        <ListPreference
+            android:key="@string/texture_pref_key"
+            android:entries="@array/Textures"
+            android:summary="@string/settings_texture_list_summary"
+            android:entryValues="@array/TextureDrawables"
+            android:title="@string/texture_list_title" />
     </PreferenceCategory>
 
 </PreferenceScreen>

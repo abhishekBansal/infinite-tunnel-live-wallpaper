@@ -20,5 +20,9 @@
 
     <!-- Settings -->
     <string name="settings_title">Settings</string>
+    <string name="settings_texture_list_summary">Choose an Image for Tunnel</string>
+    <string name="texture_list_title">Select Image</string>
+    <string name="pref_category_title">Infinite Tunnel Wallpaper Settings</string>
+    <string name="texture_pref_key">texturePrefKey</string>
 
 </resources>

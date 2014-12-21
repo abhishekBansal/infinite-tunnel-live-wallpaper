@@ -5,7 +5,7 @@
     <!-- Enable automatic Activity measurement -->
     <bool name="ga_autoActivityTracking">true</bool>
 
-    <screenName name="com.rrapps.infinitetunnel.Settings">
+    <screenName name="com.rrapps.infinitetunnel.SettingsActivity">
         InfiniteTunnelLiveWallpaper SettingsScreen
     </screenName>
 
