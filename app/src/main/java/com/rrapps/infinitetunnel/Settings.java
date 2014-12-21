@@ -4,6 +4,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import rajawali.wallpaper.Wallpaper;
 
 // Deprecated PreferenceActivity methods are used for API Level 10 (and lower) compatibility
@@ -19,6 +22,17 @@ public class Settings extends PreferenceActivity implements
 		addPreferencesFromResource(R.xml.settings);
 		getPreferenceManager().getSharedPreferences()
 				.registerOnSharedPreferenceChangeListener(this);
+
+        // google analytics setup
+        // Get tracker.
+        Tracker t = ((InfiniteTunnelApplication) getApplication()).getTracker(
+                InfiniteTunnelApplication.TrackerName.APP_TRACKER);
+
+        // Set screen name.
+        t.setScreenName("SettingsScreen");
+
+        // Send a screen view.
+        t.send(new HitBuilders.AppViewBuilder().build());
 	}
 
 	protected void onResume() {
