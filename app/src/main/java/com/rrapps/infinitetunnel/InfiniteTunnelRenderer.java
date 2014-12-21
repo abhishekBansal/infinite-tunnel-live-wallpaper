@@ -40,7 +40,7 @@ public class InfiniteTunnelRenderer extends RajawaliRenderer {
             fragmentShader.setViewportWidth(getViewportWidth());
 
             mMaterial = new Material(vertexShader, fragmentShader);
-            mMaterial.addTexture(new Texture("uTunnelTexture", R.drawable.round_brick_tilable));
+            mMaterial.addTexture(new Texture("uTunnelTexture", R.drawable.bricks_stone));
             mMaterial.enableTime(true);
             fullScreenPlane.setMaterial(mMaterial);
 
