@@ -1,8 +1,14 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:key="rajawalisharedprefs"
+    android:key="RRApps.InfiniteTunnelWallpaperSharedPref"
     android:title="@string/settings_title" >
 
-    <PreferenceCategory>
+    <PreferenceCategory android:title="blah">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="prefLockScreen"
+            android:summary="Lock The Screen With Password"
+            android:title="Screen Lock" >
+        </CheckBoxPreference>
     </PreferenceCategory>
 
 </PreferenceScreen>
