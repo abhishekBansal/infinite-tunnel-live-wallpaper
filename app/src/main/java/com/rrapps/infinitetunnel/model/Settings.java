@@ -2,9 +2,9 @@ package com.rrapps.infinitetunnel.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.rrapps.infinitetunnel.R;
-import com.rrapps.infinitetunnel.SettingsActivity;
 
 /**
  * Created by abhishek on 21/12/14.
@@ -12,14 +12,20 @@ import com.rrapps.infinitetunnel.SettingsActivity;
  */
 public class Settings {
 
+    private static String IS_TEXTURE_CHANGED_KEY = "IsTextureChangedPrefKey";
     private Settings(Context context) {
         mContext = context;
-        readSettings();
+        mSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     private static Settings _instance;
 
     private Context mContext;
+
+    /**
+     * sharedprefs instance
+     */
+    private SharedPreferences mSharedPrefs;
 
     public static Settings getInstance(Context context) {
         if(_instance == null)
@@ -28,29 +34,17 @@ public class Settings {
         return _instance;
     }
 
-    public boolean isSettingsChanged() {
-        return mSettingsChanged;
+    public boolean isTextureChanged() {
+        return mSharedPrefs.getBoolean(IS_TEXTURE_CHANGED_KEY, false);
     }
 
-    public void setSettingsChanged(boolean settingsChanged) {
-        mSettingsChanged = settingsChanged;
+    public void setTextureChanged(boolean settingsChanged) {
+        mSharedPrefs.edit().putBoolean(IS_TEXTURE_CHANGED_KEY, settingsChanged)
+            .apply();
     }
-
-    private boolean mSettingsChanged = false;
 
     public int getCurrentTextureNo() {
-        return mCurrentTextureNo;
-    }
-
-    private int mCurrentTextureNo = 2;
-
-    // reads and refreshes current settings
-    public void readSettings() {
-        SharedPreferences settings =
-                mContext.getSharedPreferences(SettingsActivity.SHARED_PREF_NAME, Context.MODE_PRIVATE);
-
-        mCurrentTextureNo =
-                Integer.parseInt(settings.getString(mContext.getString(R.string.texture_pref_key),
-                                                    "-1"));
+        return Integer.parseInt(mSharedPrefs.getString(mContext.getString(R.string.texture_pref_key),
+                                                      "-1"));
     }
 }

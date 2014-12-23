@@ -1,6 +1,6 @@
 package com.rrapps.infinitetunnel;
 
-import android.content.Context;
+import android.preference.PreferenceManager;
 
 import rajawali.wallpaper.Wallpaper;
 
@@ -9,10 +9,11 @@ public class Service extends Wallpaper {
 
 	public Engine onCreateEngine() {
 		mRenderer = new InfiniteTunnelRenderer(this);
-		return new WallpaperEngine(this.getSharedPreferences(SettingsActivity.SHARED_PREF_NAME,
-				                                            Context.MODE_PRIVATE),
-                                                            getBaseContext(),
-                                                            mRenderer,
-                                                            false);
+		return new WallpaperEngine(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()),
+                                    getApplicationContext(),
+                                    mRenderer,
+                                    false);
 	}
+
+
 }

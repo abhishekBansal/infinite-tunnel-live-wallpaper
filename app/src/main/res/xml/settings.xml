@@ -1,5 +1,4 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:key="RRApps.InfiniteTunnelWallpaperSharedPref"
     android:title="@string/settings_title" >
 
     <PreferenceCategory android:title="@string/pref_category_title">
@@ -8,7 +7,8 @@
             android:entries="@array/Textures"
             android:summary="@string/settings_texture_list_summary"
             android:entryValues="@array/TextureDrawables"
-            android:title="@string/texture_list_title" />
+            android:title="@string/texture_list_title"
+            android:defaultValue="2"/>
     </PreferenceCategory>
 
 </PreferenceScreen>
