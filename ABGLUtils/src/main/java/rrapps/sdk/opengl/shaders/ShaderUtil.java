@@ -2,13 +2,18 @@
  * 
  */
 package rrapps.sdk.opengl.shaders;
-import rrapps.sdk.utils.LOGUtil;
+
+import android.content.Context;
+import android.opengl.GLES20;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
-import android.opengl.GLES20;
-import android.util.Log;
+import rrapps.sdk.utils.LOGUtil;
 
 /**
  * @author Abhishek Bansal
@@ -37,6 +42,29 @@ public final class ShaderUtil
     {
         String source = _getSourceFromFile(fileName);
         return _compileShader(shaderType.getType(), source);
+    }
+
+    public static int LoadResourceFromRawResource(int resId, IShader.ShaderType shaderType, final Context context) {
+        InputStream is = context.getResources().openRawResource(resId);
+        InputStreamReader isr = new InputStreamReader(is);
+        BufferedReader br = new BufferedReader(isr, 8192);
+
+        StringBuilder source = new StringBuilder();
+        String line = null ;
+        try {
+            while( (line = br.readLine()) !=null )
+            {
+                source.append(line);
+                source.append('\n');
+            }
+
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new IllegalArgumentException("unable to load shader from resource ["+resId+"]", e);
+        }
+
+        return _compileShader(shaderType.getType(), source.toString());
     }
     
     private static int _compileShader(int type, String source)
