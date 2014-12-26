@@ -22,7 +22,7 @@
 
         <!-- Wallpaper Service -->
         <service
-            android:name="com.rrapps.infinitetunnel.Service"
+            android:name=".MyWallpaperService"
             android:label="@string/lwp_name"
             android:permission="android.permission.BIND_WALLPAPER" >
             <intent-filter>
@@ -41,17 +41,6 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <category android:name="android.intent.category.PREFERENCE" />
-            </intent-filter>
-        </activity>
-
-        <!-- Wallpaper Preview -->
-        <activity
-            android:name="com.rrapps.infinitetunnel.Preview"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>
