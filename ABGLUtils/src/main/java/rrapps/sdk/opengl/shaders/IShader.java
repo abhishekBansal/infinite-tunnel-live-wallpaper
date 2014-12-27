@@ -1,5 +1,6 @@
 package rrapps.sdk.opengl.shaders;
 
+import android.content.Context;
 import android.opengl.GLES20;
 
 /**
@@ -40,6 +41,8 @@ public interface IShader
     public void setShaderType(IShader.ShaderType _shaderType);
 
     public int load(String fileName);
+
+    public int load(int rawResourceID, final Context context);
     
     public int load();
 }

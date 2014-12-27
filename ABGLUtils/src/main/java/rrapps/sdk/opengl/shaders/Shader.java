@@ -3,6 +3,8 @@
  */
 package rrapps.sdk.opengl.shaders;
 
+import android.content.Context;
+
 /**
  * @author Abhishek Bansal
  *  
@@ -39,6 +41,10 @@ public class Shader implements IShader
     public int load(String fileName)
     {
         return ShaderUtil.LoadShaderFromFile(_shaderType, fileName);
+    }
+
+    public int load(int rawResourceID, final Context context) {
+        return ShaderUtil.LoadResourceFromRawResource(rawResourceID, _shaderType, context);
     }
     
     public int load()

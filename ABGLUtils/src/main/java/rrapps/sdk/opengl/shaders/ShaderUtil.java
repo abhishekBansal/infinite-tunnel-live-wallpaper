@@ -44,6 +44,10 @@ public final class ShaderUtil
         return _compileShader(shaderType.getType(), source);
     }
 
+    /**
+     *
+     * @return id of the shader if compilation was successful 0 otherwise
+     */
     public static int LoadResourceFromRawResource(int resId, IShader.ShaderType shaderType, final Context context) {
         InputStream is = context.getResources().openRawResource(resId);
         InputStreamReader isr = new InputStreamReader(is);
