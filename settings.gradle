@@ -1,1 +1,2 @@
-include ':app', ':GLWallpaperService', ':ABGLUtils'
+include ':app', ':ABGLUtils'
+include ':gLWallpaperService'

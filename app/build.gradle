@@ -19,6 +19,6 @@ android {
 
 dependencies {
     compile 'com.google.android.gms:play-services:6.5.+'
-    compile project(':GLWallpaperService')
     compile project(':ABGLUtils')
+    compile project(':gLWallpaperService')
 }
