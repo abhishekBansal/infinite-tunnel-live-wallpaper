@@ -16,9 +16,15 @@ public class MyWallpaperService extends GLWallpaperService {
 
         WallpaperEngine() {
             super();
-            mRenderer = new InfiniteTunnelRenderer();
+            setEGLContextClientVersion(2);
+            mRenderer = new InfiniteTunnelRenderer(getApplicationContext());
             setRenderer(mRenderer);
             setRenderMode(RENDERMODE_CONTINUOUSLY);
+        }
+
+        @Override
+        public void onSurfaceCreated(SurfaceHolder holder) {
+            super.onSurfaceCreated(holder);
         }
 
         @Override
