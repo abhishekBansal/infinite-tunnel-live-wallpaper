@@ -4,6 +4,7 @@ import android.opengl.GLES20;
 
 import junit.framework.Assert;
 
+import rrapps.sdk.opengl.GLUtils;
 import rrapps.sdk.opengl.geometry.AbstractGeometry;
 import rrapps.sdk.opengl.shaders.IShader;
 import rrapps.sdk.opengl.shaders.Program;
@@ -28,29 +29,40 @@ public class TunnelGeometry extends AbstractGeometry
     public TunnelGeometry()
     {
         _setupShader();
-        _vertices = new float [] { -0.5f, 0.5f, 0.0f, // top left
-            -0.5f, -0.5f, 0.0f, // bottom left
-            0.5f, -0.5f, 0.0f, // bottom right
-            0.5f, 0.5f, 0.0f }; // top right
+        _vertices = new float [] {
+                -1.0f, 1.0f, 1.0f,
+                -1.0f, -1.0f, 1.0f,
+                1.0f, 1.0f, 1.0f,
+                -1.0f, -1.0f, 1.0f,
+                1.0f, -1.0f, 1.0f,
+                1.0f, 1.0f, 1.0f
+        };
+
         setCoordsPerVertex(3);
 
-        _indices = new short [] { 0, 1, 2, 0, 2, 3 };
-
-        setIndexed(true);
+        _texCoords = new float [] {
+                // Front face
+                0.0f, 0.0f,
+                0.0f, 1.0f,
+                1.0f, 0.0f,
+                0.0f, 1.0f,
+                1.0f, 1.0f,
+                1.0f, 0.0f
+        };
 
         // ask to setup buffers to super class
         _setupVertexBuffer();
-        _setupIndexBuffer();
+        _setupTexCoordBuffer();
     }
 
     private void _setupShader()
     {
         IShader vertexShader = new Shader(IShader.ShaderType.VERTEX_SHADER);
-        vertexShader.setShaderSource(ShaderLibrary.DefaultVertexShader);
+        vertexShader.setShaderSource(ShaderLibrary.SimpleTextureVertexShaderCode);
         int vertexShaderHandle = vertexShader.load();
 
         IShader fragmentShader = new Shader(IShader.ShaderType.FRAGMENT_SHADER);
-        fragmentShader.setShaderSource(ShaderLibrary.DefaultFragmentShader);
+        fragmentShader.setShaderSource(ShaderLibrary.SimpleTextureFragmentShaderCode);
         int fragmentShaderHandle = fragmentShader.load();
 
         if(vertexShaderHandle <=0)
@@ -84,25 +96,46 @@ public class TunnelGeometry extends AbstractGeometry
         GLES20.glVertexAttribPointer(positionHandle, _coordsPerVertex,
                 GLES20.GL_FLOAT, false, 0, _vertexBuffer);
 
-        // get handle to fragment shader's vColor member
-        int colorHandle = GLES20.glGetUniformLocation(_program, "vColor");
+        // get handle to vertex shader's vPosition member
+        int texCoordHandle = GLES20.glGetAttribLocation(_program, "texCoordinate");
+        rrapps.sdk.opengl.GLUtils.checkGlError("glGetAttribLocation");
 
-        // Set color for drawing the triangle
-        GLES20.glUniform4fv(colorHandle, 1, getColor(), 0);
+        // Enable a handle to the triangle vertices
+        GLES20.glEnableVertexAttribArray(texCoordHandle);
+
+        // Prepare color data
+        GLES20.glVertexAttribPointer(texCoordHandle,
+                2,
+                GLES20.GL_FLOAT,
+                false,
+                0,
+                _texCoordBuffer);
+
 
         // get handle to shape's transformation matrix
         int mvpMatrixHandle = GLES20.glGetUniformLocation(_program, "uMVPMatrix");
-        //GLRenderer.checkGlError("glGetUniformLocation");
 
         // Apply the projection and view transformation
         GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false, mvpMatrix, 0);
-        //GLRenderer.checkGlError("glUniformMatrix4fv");
 
-        // Draw the square
-        GLES20.glDrawElements(GLES20.GL_TRIANGLES, _indices.length, GLES20.GL_UNSIGNED_SHORT, _indexBuffer);
+        int textureUniformHandle = GLES20.glGetUniformLocation(_program, "uTexture");
+        GLUtils.checkGlError("glGetUniformLocation");
+
+        // Set the active texture unit to texture unit 0.
+        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+
+        // Bind the texture to this unit.
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, _textureHandle);
+
+        // Tell the texture uniform sampler to use this texture in the shader by binding to texture unit 0.
+        GLES20.glUniform1i(textureUniformHandle, 0);
+
+        // Draw the tunnel
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 6);
 
         // Disable vertex array
         GLES20.glDisableVertexAttribArray(positionHandle);
+        GLES20.glDisableVertexAttribArray(texCoordHandle);
     }
 
 }

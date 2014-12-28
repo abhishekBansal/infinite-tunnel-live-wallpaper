@@ -77,7 +77,7 @@ public class InfiniteTunnelRenderer implements GLWallpaperService.Renderer {
         // Position the eye behind the origin.
         final float eyeX = 0.0f;
         final float eyeY = 0.0f;
-        final float eyeZ = 2.0f;
+        final float eyeZ = 3.0f;
 
         // We are looking toward the distance
         final float lookX = 0.0f;
@@ -105,6 +105,9 @@ public class InfiniteTunnelRenderer implements GLWallpaperService.Renderer {
 
         // initialize plane
         mTunnelPlane = new TunnelGeometry();
+        mTunnelPlane.setTextureEnabled(true);
+      //  mTunnelPlane.setTextureResourceID(R.drawable.brick_red);
+        mTunnelPlane.loadTextureFromResource(getContext(), R.drawable.brick_red);
     }
 
     @Override

@@ -14,7 +14,7 @@ public interface ICustomGeometry extends IGeometry
     
     /**
      * 
-     * @param programhandle has to be linked handle to program that needs to be applied
+     * @param programHandle has to be linked handle to program that needs to be applied
      *        setting uniform for this needs to handled by renderer 
      * @return
      */
@@ -33,7 +33,7 @@ public interface ICustomGeometry extends IGeometry
     public int getCoordsPerVertex();
 
     /**
-     * @param _coordsPerVertex the _coordsPerVertex to set
+     * @param coordsPerVertex the _coordsPerVertex to set
      */
     public void setCoordsPerVertex(int coordsPerVertex);
 

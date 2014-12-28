@@ -3,6 +3,9 @@
  */
 package rrapps.sdk.opengl.geometry;
 
+import android.content.Context;
+import android.util.Log;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
@@ -10,8 +13,6 @@ import java.nio.ShortBuffer;
 
 import rrapps.sdk.opengl.GLUtils;
 import rrapps.sdk.utils.LOGUtil;
-import android.content.Context;
-import android.util.Log;
 
 /**
  * @author Abhishek Bansal
@@ -77,7 +78,7 @@ public abstract class AbstractGeometry implements ICustomGeometry, ITexturedGeom
     }
 
     /**
-     * @param _vertexCount the _vertexCount to set
+     * @param vertexCount the _vertexCount to set
      */
     public void setVertexCount(int vertexCount)
     {
@@ -338,7 +339,7 @@ public abstract class AbstractGeometry implements ICustomGeometry, ITexturedGeom
     }
 
     /**
-     * @param _coordsPerVertex the _coordsPerVertex to set
+     * @param coordsPerVertex the _coordsPerVertex to set
      */
     public void setCoordsPerVertex(int coordsPerVertex)
     {
