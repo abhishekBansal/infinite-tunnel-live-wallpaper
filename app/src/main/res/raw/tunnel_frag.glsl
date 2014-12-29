@@ -1,19 +1,19 @@
 // Ref: http://adrianboeing.blogspot.in/2011/01/webgl-tunnel-effect-explained.html
 //      https://www.shadertoy.com/view/Ms2SWW
 precision mediump float;
-uniform float uTime;
-uniform vec2 uResolution;
+//uniform float uTime;
+//uniform vec2 uResolution;
 uniform sampler2D uTunnelTexture;
 
 void main(void)
 {
     float speed = 1.0;
-    float scaledTime = uTime * speed;
+    //float scaledTime = uTime * speed;
     // clamp pixel posiiton in [-1,1]
-    vec2 p = -1.0 + 2.0 * gl_FragCoord.xy / uResolution.xy;
+    vec2 p = -1.0 + 2.0 * gl_FragCoord.xy /vec2(400.0, 800.0);// uResolution.xy;
 
     // this is to fix aspect ratio of tunnel center
-    p.y = p.y * uResolution.y/uResolution.x;
+    //p.y = p.y * uResolution.y/uResolution.x;
 
     vec2 uv;
 
@@ -36,7 +36,7 @@ void main(void)
     uv.y = a/(3.1416);
     
     // add global time for a moving tunnel
-    uv.x = uv.x + scaledTime/2.0;
+ //   uv.x = uv.x + scaledTime/2.0;
     
     // multiplication by r to give a darkened effect  in center
     vec3 col = texture2D(uTunnelTexture, uv).xyz * r;

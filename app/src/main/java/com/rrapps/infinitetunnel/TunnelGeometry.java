@@ -1,5 +1,6 @@
 package com.rrapps.infinitetunnel;
 
+import android.content.Context;
 import android.opengl.GLES20;
 
 import junit.framework.Assert;
@@ -9,7 +10,6 @@ import rrapps.sdk.opengl.geometry.AbstractGeometry;
 import rrapps.sdk.opengl.shaders.IShader;
 import rrapps.sdk.opengl.shaders.Program;
 import rrapps.sdk.opengl.shaders.Shader;
-import rrapps.sdk.opengl.shaders.ShaderLibrary;
 
 /**
  * @author Abhishek Bansal
@@ -26,8 +26,14 @@ public class TunnelGeometry extends AbstractGeometry
         super(vertices);
     }
 
-    public TunnelGeometry()
+    public Context getContext() {
+        return mContext;
+    }
+
+    private Context mContext;
+    public TunnelGeometry(final Context context)
     {
+        mContext = context;
         _setupShader();
         _vertices = new float [] {
                 -1.0f, 1.0f, 1.0f,
@@ -40,30 +46,19 @@ public class TunnelGeometry extends AbstractGeometry
 
         setCoordsPerVertex(3);
 
-        _texCoords = new float [] {
-                // Front face
-                0.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 1.0f,
-                1.0f, 0.0f
-        };
-
         // ask to setup buffers to super class
         _setupVertexBuffer();
-        _setupTexCoordBuffer();
     }
 
     private void _setupShader()
     {
         IShader vertexShader = new Shader(IShader.ShaderType.VERTEX_SHADER);
-        vertexShader.setShaderSource(ShaderLibrary.SimpleTextureVertexShaderCode);
-        int vertexShaderHandle = vertexShader.load();
+        //vertexShader.setShaderSource(ShaderLibrary.SimpleTextureVertexShaderCode);
+        int vertexShaderHandle = vertexShader.load(R.raw.tunnel_vert, getContext());
 
         IShader fragmentShader = new Shader(IShader.ShaderType.FRAGMENT_SHADER);
-        fragmentShader.setShaderSource(ShaderLibrary.SimpleTextureFragmentShaderCode);
-        int fragmentShaderHandle = fragmentShader.load();
+        //fragmentShader.setShaderSource(ShaderLibrary.SimpleTextureFragmentShaderCode);
+        int fragmentShaderHandle = fragmentShader.load(R.raw.tunnel_frag, getContext());
 
         if(vertexShaderHandle <=0)
             Assert.fail("could not compile vertex shader");
@@ -87,7 +82,7 @@ public class TunnelGeometry extends AbstractGeometry
         GLES20.glUseProgram(_program);
 
         // get handle to vertex shader's vPosition member
-        int positionHandle = GLES20.glGetAttribLocation(_program, "vPosition");
+        int positionHandle = GLES20.glGetAttribLocation(_program, "aPosition");
 
         // Enable a handle to the triangle vertices
         GLES20.glEnableVertexAttribArray(positionHandle);
@@ -95,30 +90,17 @@ public class TunnelGeometry extends AbstractGeometry
         // Prepare the triangle coordinate data
         GLES20.glVertexAttribPointer(positionHandle, _coordsPerVertex,
                 GLES20.GL_FLOAT, false, 0, _vertexBuffer);
-
-        // get handle to vertex shader's vPosition member
-        int texCoordHandle = GLES20.glGetAttribLocation(_program, "texCoordinate");
-        rrapps.sdk.opengl.GLUtils.checkGlError("glGetAttribLocation");
-
-        // Enable a handle to the triangle vertices
-        GLES20.glEnableVertexAttribArray(texCoordHandle);
-
-        // Prepare color data
-        GLES20.glVertexAttribPointer(texCoordHandle,
-                2,
-                GLES20.GL_FLOAT,
-                false,
-                0,
-                _texCoordBuffer);
-
+        GLUtils.checkGlError("glVertexAttribPointer");
 
         // get handle to shape's transformation matrix
         int mvpMatrixHandle = GLES20.glGetUniformLocation(_program, "uMVPMatrix");
 
         // Apply the projection and view transformation
         GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false, mvpMatrix, 0);
+        GLUtils.checkGlError("glGetUniformLocation");
 
-        int textureUniformHandle = GLES20.glGetUniformLocation(_program, "uTexture");
+        int textureUniformHandle = GLES20.glGetUniformLocation(_program, "uTunnelTexture");
+        GLES20.glUniform1i(textureUniformHandle, _textureHandle);
         GLUtils.checkGlError("glGetUniformLocation");
 
         // Set the active texture unit to texture unit 0.
@@ -135,7 +117,6 @@ public class TunnelGeometry extends AbstractGeometry
 
         // Disable vertex array
         GLES20.glDisableVertexAttribArray(positionHandle);
-        GLES20.glDisableVertexAttribArray(texCoordHandle);
     }
 
 }

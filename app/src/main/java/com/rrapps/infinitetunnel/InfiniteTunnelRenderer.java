@@ -104,7 +104,7 @@ public class InfiniteTunnelRenderer implements GLWallpaperService.Renderer {
 //        GLES20.glUseProgram(mTunnelProgram.getID());
 
         // initialize plane
-        mTunnelPlane = new TunnelGeometry();
+        mTunnelPlane = new TunnelGeometry(getContext());
         mTunnelPlane.setTextureEnabled(true);
       //  mTunnelPlane.setTextureResourceID(R.drawable.brick_red);
         mTunnelPlane.loadTextureFromResource(getContext(), R.drawable.brick_red);
