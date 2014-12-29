@@ -37,18 +37,6 @@ public class InfiniteTunnelRenderer implements GLWallpaperService.Renderer {
     /** Allocate storage for the final combined matrix. This will be passed into the shader program. */
     private float[] mMVPMatrix = new float[16];
 
-    /** This will be used to pass in texture information. */
-    private int mTextureHandle;
-
-    /** This will be used to pass in the transformation matrix. */
-    private int mMVPMatrixHandle;
-
-    /** This will be used to pass in time information. */
-    private int mTimeHandle;
-
-    /** This will be used to pass in resolution information. */
-    private int mResolutionHandle;
-
     /**
      * Tunnel plane
      */
@@ -77,7 +65,7 @@ public class InfiniteTunnelRenderer implements GLWallpaperService.Renderer {
         // Position the eye behind the origin.
         final float eyeX = 0.0f;
         final float eyeY = 0.0f;
-        final float eyeZ = 3.0f;
+        final float eyeZ = 2.0f;
 
         // We are looking toward the distance
         final float lookX = 0.0f;
@@ -94,19 +82,9 @@ public class InfiniteTunnelRenderer implements GLWallpaperService.Renderer {
         // view matrix. In OpenGL 2, we can keep track of these matrices separately if we choose.
         Matrix.setLookAtM(mViewMatrix, 0, eyeX, eyeY, eyeZ, lookX, lookY, lookZ, upX, upY, upZ);
 
-//        // Set program handles. These will later be used to pass in values to the program.
-//        mMVPMatrixHandle = GLES20.glGetUniformLocation(mTunnelProgram.getID(), "uMVPMatrix");
-//        mMVPMatrixHandle = GLES20.glGetUniformLocation(mTunnelProgram.getID(), "uTime");
-//        mMVPMatrixHandle = GLES20.glGetUniformLocation(mTunnelProgram.getID(), "uResolution");
-//        mMVPMatrixHandle = GLES20.glGetUniformLocation(mTunnelProgram.getID(), "uTunnelTexture");
-//
-//        // Tell OpenGL to use this program when rendering.
-//        GLES20.glUseProgram(mTunnelProgram.getID());
-
         // initialize plane
         mTunnelPlane = new TunnelGeometry(getContext());
         mTunnelPlane.setTextureEnabled(true);
-      //  mTunnelPlane.setTextureResourceID(R.drawable.brick_red);
         mTunnelPlane.loadTextureFromResource(getContext(), R.drawable.brick_red);
     }
 
@@ -126,6 +104,8 @@ public class InfiniteTunnelRenderer implements GLWallpaperService.Renderer {
         final float far = 10.0f;
 
         Matrix.frustumM(mProjectionMatrix, 0, left, right, bottom, top, near, far);
+
+        ((TunnelGeometry)mTunnelPlane).setViewportDimensions(width, height);
     }
 
     @Override
@@ -135,7 +115,6 @@ public class InfiniteTunnelRenderer implements GLWallpaperService.Renderer {
 
         Matrix.setIdentityM(mModelMatrix, 0);
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
-        mTunnelPlane.setColor(new float[]{1.0f, 0.0f, 0.0f ,1.0f});
         mTunnelPlane.draw(mMVPMatrix);
     }
 

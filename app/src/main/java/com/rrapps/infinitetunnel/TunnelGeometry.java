@@ -5,7 +5,6 @@ import android.opengl.GLES20;
 
 import junit.framework.Assert;
 
-import rrapps.sdk.opengl.GLUtils;
 import rrapps.sdk.opengl.geometry.AbstractGeometry;
 import rrapps.sdk.opengl.shaders.IShader;
 import rrapps.sdk.opengl.shaders.Program;
@@ -17,6 +16,23 @@ import rrapps.sdk.opengl.shaders.Shader;
  */
 public class TunnelGeometry extends AbstractGeometry
 {
+
+    /**
+     * position attribute handle
+     */
+    private int mPositionHandle;
+
+    /**
+     * uniform var handles
+     */
+    private int mMVPMatrixHandle;
+    private int mTextureUniformHandle;
+    private int mTimeUniformHandle;
+    private int mResolutionUniformHandle;
+
+    private float mTime = 0.0f;
+    private float mViewportWidth = 480.0f;
+    private float mViewportHeight = 800.0f;
 
     /**
      * @param vertices
@@ -36,12 +52,12 @@ public class TunnelGeometry extends AbstractGeometry
         mContext = context;
         _setupShader();
         _vertices = new float [] {
-                -1.0f, 1.0f, 1.0f,
-                -1.0f, -1.0f, 1.0f,
-                1.0f, 1.0f, 1.0f,
-                -1.0f, -1.0f, 1.0f,
-                1.0f, -1.0f, 1.0f,
-                1.0f, 1.0f, 1.0f
+                -1.0f, 1.0f, 0.0f,
+                -1.0f, -1.0f, 0.0f,
+                1.0f, 1.0f, 0.0f,
+                -1.0f, -1.0f, 0.0f,
+                1.0f, -1.0f, 0.0f,
+                1.0f, 1.0f, 0.0f
         };
 
         setCoordsPerVertex(3);
@@ -53,11 +69,9 @@ public class TunnelGeometry extends AbstractGeometry
     private void _setupShader()
     {
         IShader vertexShader = new Shader(IShader.ShaderType.VERTEX_SHADER);
-        //vertexShader.setShaderSource(ShaderLibrary.SimpleTextureVertexShaderCode);
         int vertexShaderHandle = vertexShader.load(R.raw.tunnel_vert, getContext());
 
         IShader fragmentShader = new Shader(IShader.ShaderType.FRAGMENT_SHADER);
-        //fragmentShader.setShaderSource(ShaderLibrary.SimpleTextureFragmentShaderCode);
         int fragmentShaderHandle = fragmentShader.load(R.raw.tunnel_frag, getContext());
 
         if(vertexShaderHandle <=0)
@@ -70,6 +84,17 @@ public class TunnelGeometry extends AbstractGeometry
         if(!defaultProgram.linkProgram())
             Assert.fail("Could not link shader program");
         _program = defaultProgram.getID();
+
+        // get handle to vertex shader's vPosition member
+        mPositionHandle = GLES20.glGetAttribLocation(_program, "aPosition");
+        // get handle to shape's transformation matrix
+        mMVPMatrixHandle = GLES20.glGetUniformLocation(_program, "uMVPMatrix");
+
+        mTextureUniformHandle = GLES20.glGetUniformLocation(_program, "uTunnelTexture");
+
+        mTimeUniformHandle = GLES20.glGetUniformLocation(_program, "uTime");
+
+        mResolutionUniformHandle = GLES20.glGetUniformLocation(_program, "uResolution");
     }
 
     /* (non-Javadoc)
@@ -80,43 +105,44 @@ public class TunnelGeometry extends AbstractGeometry
     {
         // Add program to OpenGL environment
         GLES20.glUseProgram(_program);
-
-        // get handle to vertex shader's vPosition member
-        int positionHandle = GLES20.glGetAttribLocation(_program, "aPosition");
-
         // Enable a handle to the triangle vertices
-        GLES20.glEnableVertexAttribArray(positionHandle);
+        GLES20.glEnableVertexAttribArray(mPositionHandle);
 
         // Prepare the triangle coordinate data
-        GLES20.glVertexAttribPointer(positionHandle, _coordsPerVertex,
+        GLES20.glVertexAttribPointer(mPositionHandle, _coordsPerVertex,
                 GLES20.GL_FLOAT, false, 0, _vertexBuffer);
-        GLUtils.checkGlError("glVertexAttribPointer");
-
-        // get handle to shape's transformation matrix
-        int mvpMatrixHandle = GLES20.glGetUniformLocation(_program, "uMVPMatrix");
 
         // Apply the projection and view transformation
-        GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false, mvpMatrix, 0);
-        GLUtils.checkGlError("glGetUniformLocation");
+        GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, mvpMatrix, 0);
 
-        int textureUniformHandle = GLES20.glGetUniformLocation(_program, "uTunnelTexture");
-        GLES20.glUniform1i(textureUniformHandle, _textureHandle);
-        GLUtils.checkGlError("glGetUniformLocation");
-
+        // Setup Texture
+        GLES20.glUniform1i(mTextureUniformHandle, _textureHandle);
         // Set the active texture unit to texture unit 0.
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-
         // Bind the texture to this unit.
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, _textureHandle);
-
         // Tell the texture uniform sampler to use this texture in the shader by binding to texture unit 0.
-        GLES20.glUniform1i(textureUniformHandle, 0);
+        GLES20.glUniform1i(mTextureUniformHandle, 0);
+
+        // update resolution
+        GLES20.glUniform2f(mResolutionUniformHandle, mViewportWidth, mViewportHeight);
+
+        // update time
+        GLES20.glUniform1f(mTimeUniformHandle, mTime);
+
+        mTime += 0.01f;
+        if(mTime > 2.0)
+            mTime = 0.0f;
 
         // Draw the tunnel
         GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 6);
 
         // Disable vertex array
-        GLES20.glDisableVertexAttribArray(positionHandle);
+        GLES20.glDisableVertexAttribArray(mPositionHandle);
     }
 
+    public void setViewportDimensions(int width, int height) {
+        mViewportWidth = width;
+        mViewportHeight = height;
+    }
 }
