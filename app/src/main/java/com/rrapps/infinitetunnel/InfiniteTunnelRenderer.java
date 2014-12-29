@@ -31,6 +31,8 @@ public class InfiniteTunnelRenderer implements GLWallpaperService.Renderer {
      */
     private float[] mViewMatrix = new float[16];
 
+    private float[] mModelViewMatrix = new float[16];
+
     /** Store the projection matrix. This is used to project the scene onto a 2D viewport. */
     private float[] mProjectionMatrix = new float[16];
 
@@ -46,6 +48,8 @@ public class InfiniteTunnelRenderer implements GLWallpaperService.Renderer {
      * shader program
      */
     Program mTunnelProgram;
+    private int mViewportHeight;
+    private int mViewPortWidth;
 
     public Context getContext() {
         return mContext;
@@ -65,7 +69,7 @@ public class InfiniteTunnelRenderer implements GLWallpaperService.Renderer {
         // Position the eye behind the origin.
         final float eyeX = 0.0f;
         final float eyeY = 0.0f;
-        final float eyeZ = 2.0f;
+        final float eyeZ = 1.55f;
 
         // We are looking toward the distance
         final float lookX = 0.0f;
@@ -92,7 +96,8 @@ public class InfiniteTunnelRenderer implements GLWallpaperService.Renderer {
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         // Set the OpenGL viewport to the same size as the surface.
         GLES20.glViewport(0, 0, width, height);
-
+        mViewPortWidth = width;
+        mViewportHeight = height;
         // Create a new perspective projection matrix. The height will stay the same
         // while the width will vary as per aspect ratio.
         final float ratio = (float) width / height;
@@ -114,7 +119,11 @@ public class InfiniteTunnelRenderer implements GLWallpaperService.Renderer {
         GLES20.glClearColor(0.2f, 0.4f, 0.2f, 1f);
 
         Matrix.setIdentityM(mModelMatrix, 0);
-        Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
+        Matrix.setIdentityM(mModelViewMatrix, 0);
+        Matrix.scaleM(mModelMatrix, 0, 1.0f, (float)mViewportHeight/mViewPortWidth, 1.0f);
+
+        Matrix.multiplyMM(mModelViewMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);
+        Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mModelViewMatrix, 0);
         mTunnelPlane.draw(mMVPMatrix);
     }
 
