@@ -41,11 +41,19 @@ public class Settings {
             case 1:
                 return R.drawable.brick_red;
             case 2:
-                return R.drawable.round_brick_tilable;
-            case 3:
-                return R.drawable.nebula3;
-            case 4:
                 return R.drawable.bricks_stone;
+            case 3:
+                return R.drawable.metal_green;
+            case 4:
+                return R.drawable.nebula3;
+            case 5:
+                return R.drawable.round_brick_tilable;
+            case 6:
+                return R.drawable.tiles_blue_pattern;
+            case 7:
+                return R.drawable.tiles_green_white;
+            case 8:
+                return R.drawable.wood_fine_brown;
         }
 
         return R.drawable.brick_red;
