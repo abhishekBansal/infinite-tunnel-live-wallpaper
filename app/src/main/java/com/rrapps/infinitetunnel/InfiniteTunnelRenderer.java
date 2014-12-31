@@ -10,7 +10,6 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import rrapps.sdk.opengl.geometry.ITexturedGeometry;
-import rrapps.sdk.opengl.shaders.Program;
 
 
 /**
@@ -47,7 +46,6 @@ public class InfiniteTunnelRenderer implements GLWallpaperService.Renderer {
     /**
      * shader program
      */
-    Program mTunnelProgram;
     private int mViewportHeight;
     private int mViewPortWidth;
 
@@ -63,8 +61,8 @@ public class InfiniteTunnelRenderer implements GLWallpaperService.Renderer {
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
 
-        // Set the background clear color to gray.
-        GLES20.glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
+        setFrameRate(30);
+        GLES20.glClearColor(0.2f, 0.4f, 0.2f, 1f);
 
         // Position the eye behind the origin.
         final float eyeX = 0.0f;
@@ -115,8 +113,10 @@ public class InfiniteTunnelRenderer implements GLWallpaperService.Renderer {
 
     @Override
     public void onDrawFrame(GL10 gl) {
+        // get the time at the start of the frame
+        long time = System.currentTimeMillis();
+
         GLES20.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
-        GLES20.glClearColor(0.2f, 0.4f, 0.2f, 1f);
 
         Matrix.setIdentityM(mModelMatrix, 0);
         Matrix.setIdentityM(mModelViewMatrix, 0);
@@ -125,6 +125,23 @@ public class InfiniteTunnelRenderer implements GLWallpaperService.Renderer {
         Matrix.multiplyMM(mModelViewMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mModelViewMatrix, 0);
         mTunnelPlane.draw(mMVPMatrix);
+
+        // get the time taken to render the frame
+        long time2 = System.currentTimeMillis() - time;
+
+        // if time elapsed is less than the frame interval
+        if(time2 < mFrameInterval){
+            try {
+                // sleep the thread for the remaining time until the interval has elapsed
+                // let it sleep a little less in order to save flickering
+                Thread.sleep(mFrameInterval - time2 - 5);
+            } catch (InterruptedException e) {
+                // Thread error
+                e.printStackTrace();
+            }
+        } else {
+            // framerate is slower than desired
+        }
     }
 
     /**
@@ -133,5 +150,11 @@ public class InfiniteTunnelRenderer implements GLWallpaperService.Renderer {
      */
     public void release() {
     }
+
+    private long mFrameInterval; // the time it should take 1 frame to render
+    public void setFrameRate(long fps){
+        mFrameInterval = 1000 / fps;
+    }
+
 
 }
