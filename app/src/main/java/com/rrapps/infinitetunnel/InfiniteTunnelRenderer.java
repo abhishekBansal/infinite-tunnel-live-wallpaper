@@ -3,6 +3,7 @@ package com.rrapps.infinitetunnel;
 import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
+import android.util.Log;
 
 import net.rbgrn.android.glwallpaperservice.GLWallpaperService;
 
@@ -60,7 +61,7 @@ public class InfiniteTunnelRenderer implements GLWallpaperService.Renderer {
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-
+        // pahele bijli bachao
         setFrameRate(30);
         GLES20.glClearColor(0.2f, 0.4f, 0.2f, 1f);
 
@@ -92,6 +93,7 @@ public class InfiniteTunnelRenderer implements GLWallpaperService.Renderer {
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
+        Log.v(InfiniteTunnelApplication.LogTag, "onSurfaceChanged " + (float)width/height);
         // Set the OpenGL viewport to the same size as the surface.
         GLES20.glViewport(0, 0, width, height);
         mViewPortWidth = width;
@@ -109,6 +111,32 @@ public class InfiniteTunnelRenderer implements GLWallpaperService.Renderer {
         Matrix.frustumM(mProjectionMatrix, 0, left, right, bottom, top, near, far);
 
         ((TunnelGeometry)mTunnelPlane).setViewportDimensions(width, height);
+
+        // Position the eye behind the origin.
+        final float eyeX = 0.0f;
+        final float eyeY = 0.0f;
+
+        final float eyeZ;
+        if(ratio <= 1)
+            eyeZ = 1.55f;
+        else
+            eyeZ = 1.01f;
+
+        // We are looking toward the distance
+        final float lookX = 0.0f;
+        final float lookY = 0.0f;
+        final float lookZ = -1.0f;
+
+        // Set our up vector. This is where our head would be pointing were we holding the camera.
+        final float upX = 0.0f;
+        final float upY = 1.0f;
+        final float upZ = 0.0f;
+
+        // Set the view matrix. This matrix can be said to represent the camera position.
+        // NOTE: In OpenGL 1, a ModelView matrix is used, which is a combination of a model and
+        // view matrix. In OpenGL 2, we can keep track of these matrices separately if we choose.
+        Matrix.setIdentityM(mViewMatrix, 0);
+        Matrix.setLookAtM(mViewMatrix, 0, eyeX, eyeY, eyeZ, lookX, lookY, lookZ, upX, upY, upZ);
     }
 
     @Override
@@ -120,7 +148,10 @@ public class InfiniteTunnelRenderer implements GLWallpaperService.Renderer {
 
         Matrix.setIdentityM(mModelMatrix, 0);
         Matrix.setIdentityM(mModelViewMatrix, 0);
-        Matrix.scaleM(mModelMatrix, 0, 1.0f, (float)mViewportHeight/mViewPortWidth, 1.0f);
+        if(mViewportHeight > mViewPortWidth)
+            Matrix.scaleM(mModelMatrix, 0, 1.0f, (float)mViewportHeight/mViewPortWidth, 1.0f);
+        else
+            Matrix.scaleM(mModelMatrix, 0, (float)mViewPortWidth/mViewportHeight, 1.0f, 1.0f);
 
         Matrix.multiplyMM(mModelViewMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mModelViewMatrix, 0);
@@ -133,7 +164,7 @@ public class InfiniteTunnelRenderer implements GLWallpaperService.Renderer {
         if(time2 < mFrameInterval){
             try {
                 // sleep the thread for the remaining time until the interval has elapsed
-                // let it sleep a little less in order to save flickering
+                // let it sleep a little less(5 milis less)in order to save flickering
                 Thread.sleep(mFrameInterval - time2 - 5);
             } catch (InterruptedException e) {
                 // Thread error
