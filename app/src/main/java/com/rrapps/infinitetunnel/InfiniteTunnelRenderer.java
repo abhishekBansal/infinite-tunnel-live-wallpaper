@@ -5,6 +5,8 @@ import android.opengl.GLES20;
 import android.opengl.Matrix;
 import android.util.Log;
 
+import com.rrapps.infinitetunnel.model.Settings;
+
 import net.rbgrn.android.glwallpaperservice.GLWallpaperService;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -61,6 +63,7 @@ public class InfiniteTunnelRenderer implements GLWallpaperService.Renderer {
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+        Log.v(InfiniteTunnelApplication.LogTag, "onSurfaceCreated");
         // pahele bijli bachao
         setFrameRate(30);
         GLES20.glClearColor(0.2f, 0.4f, 0.2f, 1f);
@@ -88,12 +91,13 @@ public class InfiniteTunnelRenderer implements GLWallpaperService.Renderer {
         // initialize plane
         mTunnelPlane = new TunnelGeometry(getContext());
         mTunnelPlane.setTextureEnabled(true);
-        mTunnelPlane.loadTextureFromResource(getContext(), R.drawable.brick_red);
+        mTunnelPlane.loadTextureFromResource(getContext(),
+                                            Settings.getInstance(getContext()).getCurrentTextureResId());
     }
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
-        Log.v(InfiniteTunnelApplication.LogTag, "onSurfaceChanged " + (float)width/height);
+        Log.v(InfiniteTunnelApplication.LogTag, "onSurfaceChanged Ratio" + (float)width/height);
         // Set the OpenGL viewport to the same size as the surface.
         GLES20.glViewport(0, 0, width, height);
         mViewPortWidth = width;
@@ -138,6 +142,7 @@ public class InfiniteTunnelRenderer implements GLWallpaperService.Renderer {
         Matrix.setIdentityM(mViewMatrix, 0);
         Matrix.setLookAtM(mViewMatrix, 0, eyeX, eyeY, eyeZ, lookX, lookY, lookZ, upX, upY, upZ);
     }
+
 
     @Override
     public void onDrawFrame(GL10 gl) {

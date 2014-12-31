@@ -34,17 +34,20 @@ public class Settings {
         return _instance;
     }
 
-    public boolean isTextureChanged() {
-        return mSharedPrefs.getBoolean(IS_TEXTURE_CHANGED_KEY, false);
-    }
-
-    public void setTextureChanged(boolean settingsChanged) {
-        mSharedPrefs.edit().putBoolean(IS_TEXTURE_CHANGED_KEY, settingsChanged)
-            .apply();
-    }
-
-    public int getCurrentTextureNo() {
-        return Integer.parseInt(mSharedPrefs.getString(mContext.getString(R.string.texture_pref_key),
+    public int getCurrentTextureResId() {
+        int tNo =  Integer.parseInt(mSharedPrefs.getString(mContext.getString(R.string.texture_pref_key),
                                                       "-1"));
+        switch(tNo) {
+            case 1:
+                return R.drawable.brick_red;
+            case 2:
+                return R.drawable.round_brick_tilable;
+            case 3:
+                return R.drawable.nebula3;
+            case 4:
+                return R.drawable.bricks_stone;
+        }
+
+        return R.drawable.brick_red;
     }
 }

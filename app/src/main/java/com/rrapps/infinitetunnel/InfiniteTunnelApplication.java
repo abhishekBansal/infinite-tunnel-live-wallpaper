@@ -2,7 +2,6 @@ package com.rrapps.infinitetunnel;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
-import com.rrapps.infinitetunnel.model.Settings;
 
 import java.util.HashMap;
 
@@ -29,11 +28,8 @@ public class InfiniteTunnelApplication extends android.app.Application {
 
     public static final String LogTag = "InfiniteTunnel_Log";
 
-    public static Settings SettingsInstance;
-
     @Override
     public void onCreate() {
-        SettingsInstance = Settings.getInstance(getApplicationContext());
         super.onCreate();
     }
 
