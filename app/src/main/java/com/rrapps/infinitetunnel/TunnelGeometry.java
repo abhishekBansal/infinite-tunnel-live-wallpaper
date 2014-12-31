@@ -3,6 +3,8 @@ package com.rrapps.infinitetunnel;
 import android.content.Context;
 import android.opengl.GLES20;
 
+import com.rrapps.infinitetunnel.model.Settings;
+
 import junit.framework.Assert;
 
 import rrapps.sdk.opengl.geometry.AbstractGeometry;
@@ -28,6 +30,7 @@ public class TunnelGeometry extends AbstractGeometry
     private int mMVPMatrixHandle;
     private int mTextureUniformHandle;
     private int mTimeUniformHandle;
+    private int mSpeedUniformHandle;
     private int mResolutionUniformHandle;
 
     private float mTime = 0.0f;
@@ -94,6 +97,8 @@ public class TunnelGeometry extends AbstractGeometry
 
         mTimeUniformHandle = GLES20.glGetUniformLocation(_program, "uTime");
 
+        mSpeedUniformHandle = GLES20.glGetUniformLocation(_program, "uSpeed");
+
         mResolutionUniformHandle = GLES20.glGetUniformLocation(_program, "uResolution");
     }
 
@@ -129,6 +134,9 @@ public class TunnelGeometry extends AbstractGeometry
 
         // update time
         GLES20.glUniform1f(mTimeUniformHandle, mTime);
+
+        // update speed
+        GLES20.glUniform1f(mSpeedUniformHandle, Settings.getInstance(mContext).getSpeed());
 
         mTime += 0.01f;
         if(mTime > 2.0)

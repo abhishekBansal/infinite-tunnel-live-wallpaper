@@ -2,13 +2,14 @@
 //      https://www.shadertoy.com/view/Ms2SWW
 precision mediump float;
 uniform float uTime;
+uniform float uSpeed;
 uniform vec2 uResolution;
 uniform sampler2D uTunnelTexture;
 
 void main(void)
 {
-    float speed = 1.0;
-    float scaledTime = uTime * speed;
+    //float speed = 1.0;
+    float scaledTime = uTime * uSpeed;
     // clamp pixel posiiton in [-1,1]
     vec2 p = -1.0 + 2.0 * gl_FragCoord.xy / uResolution.xy;
 

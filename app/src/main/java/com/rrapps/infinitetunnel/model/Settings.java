@@ -58,4 +58,11 @@ public class Settings {
 
         return R.drawable.brick_red;
     }
+
+    public float getSpeed() {
+        int speed = mSharedPrefs.getInt(mContext.getString(R.string.speed_pref_key), 5);
+        if(speed <= 0)
+            speed = 1;
+        return (float) speed / 5.0f;
+    }
 }

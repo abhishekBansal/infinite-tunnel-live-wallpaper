@@ -64,7 +64,7 @@ public class InfiniteTunnelRenderer implements GLWallpaperService.Renderer {
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         Log.v(InfiniteTunnelApplication.LogTag, "onSurfaceCreated");
-        // pahele bijli bachao
+        // sabse pahele bijli bachao
         setFrameRate(30);
         GLES20.glClearColor(0.2f, 0.4f, 0.2f, 1f);
 
