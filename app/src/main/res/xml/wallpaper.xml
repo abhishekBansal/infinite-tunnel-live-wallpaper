@@ -2,4 +2,4 @@
     android:author="@string/lwp_author"
     android:description="@string/lwp_desc"
     android:settingsActivity="com.rrapps.infinitetunnel.SettingsActivity"
-    android:thumbnail="@drawable/launcher_icon" />
+    android:thumbnail="@drawable/launcher_blue_tile" />
