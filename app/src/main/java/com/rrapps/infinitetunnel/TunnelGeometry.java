@@ -32,6 +32,7 @@ public class TunnelGeometry extends AbstractGeometry
     private int mTimeUniformHandle;
     private int mSpeedUniformHandle;
     private int mResolutionUniformHandle;
+    private int mBrightnessUniformHandle;
 
     private float mTime = 0.0f;
     private float mViewportWidth = 480.0f;
@@ -100,6 +101,8 @@ public class TunnelGeometry extends AbstractGeometry
         mSpeedUniformHandle = GLES20.glGetUniformLocation(_program, "uSpeed");
 
         mResolutionUniformHandle = GLES20.glGetUniformLocation(_program, "uResolution");
+
+        mBrightnessUniformHandle = GLES20.glGetUniformLocation(_program, "uBrightness");
     }
 
     /* (non-Javadoc)
@@ -146,6 +149,9 @@ public class TunnelGeometry extends AbstractGeometry
         mTime += 0.01f;
         if(mTime > 1.0f/speed)
             mTime = 0.0f;
+
+        // update brightness
+        GLES20.glUniform1f(mBrightnessUniformHandle, Settings.getInstance(mContext).getBrightness());
 
         // Draw the tunnel
         GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 6);

@@ -32,5 +32,8 @@
     <string name="speed">Speed</string>
     <string name="speed_pref_summary">Adjust speed of moving tunnel</string>
     <string name="speed_pref_key">speedPref</string>
+    <string name="brightness">Brightness</string>
+    <string name="brightness_pref_summary">Adjust Brightness of Wallpaper</string>
+    <string name="brightness_pref_key">brightnessPref</string>
 
 </resources>

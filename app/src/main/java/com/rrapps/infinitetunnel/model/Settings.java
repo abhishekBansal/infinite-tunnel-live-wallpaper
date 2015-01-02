@@ -59,10 +59,24 @@ public class Settings {
         return R.drawable.brick_red;
     }
 
+    /**
+     *
+     * @return speed in range (0.2, 2)
+     */
     public float getSpeed() {
         int speed = mSharedPrefs.getInt(mContext.getString(R.string.speed_pref_key), 5);
         if(speed <= 0)
             speed = 1;
         return (float) speed / 5.0f;
+    }
+
+
+    /**
+     *
+     * @return bright ness in range of (0.3, 1.3)
+     */
+    public float getBrightness() {
+        int brightness = mSharedPrefs.getInt(mContext.getString(R.string.brightness_pref_key), 5);
+        return ( ((float) brightness / 10.0f) + 0.3f);
     }
 }

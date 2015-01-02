@@ -3,6 +3,7 @@
 precision mediump float;
 uniform float uTime;
 uniform float uSpeed;
+uniform float uBrightness;
 uniform vec2 uResolution;
 uniform sampler2D uTunnelTexture;
 
@@ -42,5 +43,5 @@ void main(void)
     // multiplication by r to give a darkened effect  in center
     vec3 col = texture2D(uTunnelTexture, uv).xyz * r;
     
-    gl_FragColor = vec4(col,1.0);
+    gl_FragColor = vec4(col,1.0) * uBrightness;
 }

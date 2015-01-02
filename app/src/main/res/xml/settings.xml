@@ -22,6 +22,17 @@
             robobunny:unitsRight=""
             />
 
+        <SeekBarPreference
+            android:key="@string/brightness_pref_key"
+            android:title="@string/brightness"
+            android:summary="@string/brightness_pref_summary"
+            android:defaultValue="5"
+            android:max="10"
+            robobunny:min="2"
+            robobunny:unitsLeft=""
+            robobunny:unitsRight=""
+            />
+
     </PreferenceCategory>
 
 </PreferenceScreen>
