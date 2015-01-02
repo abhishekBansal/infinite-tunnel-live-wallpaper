@@ -2,7 +2,18 @@
                   xmlns:robobunny="http://robobunny.com"
     android:title="@string/settings_title" >
 
-    <PreferenceCategory android:title="@string/pref_category_title">
+    <PreferenceCategory android:title="@string/pref_category_general">
+
+        <CheckBoxPreference
+            android:key="@string/pref_double_tap_key"
+            android:defaultValue="true"
+            android:title="@string/pref_double_tap_title"
+            android:summary="@string/pref_double_tap_summary"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_category_appearance">
+
         <ListPreference
             android:key="@string/texture_pref_key"
             android:entries="@array/Textures"

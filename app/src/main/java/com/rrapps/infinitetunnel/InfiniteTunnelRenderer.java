@@ -194,5 +194,4 @@ public class InfiniteTunnelRenderer implements GLWallpaperService.Renderer {
         mFrameInterval = 1000 / fps;
     }
 
-
 }

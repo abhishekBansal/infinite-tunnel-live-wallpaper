@@ -79,4 +79,9 @@ public class Settings {
         int brightness = mSharedPrefs.getInt(mContext.getString(R.string.brightness_pref_key), 5);
         return ( ((float) brightness / 10.0f) + 0.3f);
     }
+
+
+    public boolean getSettingsOnDoubleTapPreference() {
+        return mSharedPrefs.getBoolean(mContext.getString(R.string.pref_double_tap_key), true);
+    }
 }

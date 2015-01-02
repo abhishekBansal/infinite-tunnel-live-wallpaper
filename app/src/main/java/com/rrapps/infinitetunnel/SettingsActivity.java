@@ -21,6 +21,8 @@ public class SettingsActivity extends PreferenceActivity {
                 InfiniteTunnelApplication.TrackerName.APP_TRACKER);
         // Set screen name.
         t.setScreenName("SettingsScreen");
+        // Enable Display Features.
+        t.enableAdvertisingIdCollection(true);
         // Send a screen view.
         t.send(new HitBuilders.AppViewBuilder().build());
     }
