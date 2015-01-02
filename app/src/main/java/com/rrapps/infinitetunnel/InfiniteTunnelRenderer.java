@@ -170,7 +170,9 @@ public class InfiniteTunnelRenderer implements GLWallpaperService.Renderer {
             try {
                 // sleep the thread for the remaining time until the interval has elapsed
                 // let it sleep a little less(5 milis less)in order to save flickering
-                Thread.sleep(mFrameInterval - time2 - 5);
+                long timeout = mFrameInterval - time2 - 5;
+                if(timeout > 0)
+                    Thread.sleep(timeout);
             } catch (InterruptedException e) {
                 // Thread error
                 e.printStackTrace();
