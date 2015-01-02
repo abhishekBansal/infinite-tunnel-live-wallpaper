@@ -37,7 +37,7 @@ void main(void)
     uv.y = a/(3.1416);
     
     // add global time for a moving tunnel
-    uv.x = uv.x + scaledTime/2.0;
+    uv.x = uv.x + scaledTime;
     
     // multiplication by r to give a darkened effect  in center
     vec3 col = texture2D(uTunnelTexture, uv).xyz * r;

@@ -136,10 +136,15 @@ public class TunnelGeometry extends AbstractGeometry
         GLES20.glUniform1f(mTimeUniformHandle, mTime);
 
         // update speed
-        GLES20.glUniform1f(mSpeedUniformHandle, Settings.getInstance(mContext).getSpeed());
+        float speed = Settings.getInstance(mContext).getSpeed();
+        GLES20.glUniform1f(mSpeedUniformHandle, speed);
 
+        // if time if greater then 1 then reset
+        // otherwise tunnel gets fucked up
+        // since we are multiplying in shader devide it here to compensate
+        // so that uv.x is wrapped everytime scaledTime(in shader) reaches 1
         mTime += 0.01f;
-        if(mTime > 2.0)
+        if(mTime > 1.0f/speed)
             mTime = 0.0f;
 
         // Draw the tunnel
