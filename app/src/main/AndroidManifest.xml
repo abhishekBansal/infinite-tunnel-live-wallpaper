@@ -14,14 +14,6 @@
     <uses-feature android:glEsVersion="0x00020000" />
     <uses-feature android:name="android.software.live_wallpaper" />
 
-    <!--<android:uses-permission-->
-        <!--android:name="android.permission.WRITE_EXTERNAL_STORAGE"-->
-        <!--android:maxSdkVersion="18" />-->
-    <!--<android:uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
-    <!--<android:uses-permission-->
-        <!--android:name="android.permission.READ_EXTERNAL_STORAGE"-->
-        <!--android:maxSdkVersion="18" />-->
-
     <application
         android:name=".InfiniteTunnelApplication"
         android:allowBackup="true"

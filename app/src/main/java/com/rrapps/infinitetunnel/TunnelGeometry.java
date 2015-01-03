@@ -35,7 +35,6 @@ public class TunnelGeometry extends AbstractGeometry
     private int mBrightnessUniformHandle;
 
     private int mIsSquareUniformHandle;
-    private int mSquareRadiusPowerUniformHandle;
 
     private float mTime = 0.0f;
     private float mViewportWidth = 480.0f;

@@ -71,7 +71,7 @@ public class InfiniteTunnelRenderer implements GLWallpaperService.Renderer {
         // Position the eye behind the origin.
         final float eyeX = 0.0f;
         final float eyeY = 0.0f;
-        final float eyeZ = 1.55f;
+        final float eyeZ = 1.45f;
 
         // We are looking toward the distance
         final float lookX = 0.0f;
@@ -122,7 +122,7 @@ public class InfiniteTunnelRenderer implements GLWallpaperService.Renderer {
 
         final float eyeZ;
         if(ratio <= 1)
-            eyeZ = 1.55f;
+            eyeZ = 1.45f;
         else
             eyeZ = 1.01f;
 
