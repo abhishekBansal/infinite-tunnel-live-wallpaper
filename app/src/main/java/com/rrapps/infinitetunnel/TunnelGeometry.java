@@ -36,9 +36,14 @@ public class TunnelGeometry extends AbstractGeometry
 
     private int mIsSquareUniformHandle;
 
+    private int mXDeviationUniformHandle;
+    private int mYDeviationUniformHandle;
+
     private float mTime = 0.0f;
     private float mViewportWidth = 480.0f;
     private float mViewportHeight = 800.0f;
+    private float mXDeviation = 0.0f;
+    private float mYDeviations = 0.0f;
 
     /**
      * @param vertices
@@ -107,6 +112,9 @@ public class TunnelGeometry extends AbstractGeometry
         mBrightnessUniformHandle = GLES20.glGetUniformLocation(_program, "uBrightness");
 
         mIsSquareUniformHandle = GLES20.glGetUniformLocation(_program, "uIsSquare");
+
+        mXDeviationUniformHandle = GLES20.glGetUniformLocation(_program, "uDeviationX");
+        //mYDeviationUniformHandle = GLES20.glGetUniformLocation(_program, "uDeviationY");
     }
 
     /* (non-Javadoc)
@@ -164,6 +172,9 @@ public class TunnelGeometry extends AbstractGeometry
         else
             GLES20.glUniform1i(mIsSquareUniformHandle, 0);
 
+        // set camera offsets
+        GLES20.glUniform1f(mXDeviationUniformHandle, mXDeviation);
+
         // Draw the tunnel
         GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 6);
 
@@ -174,5 +185,10 @@ public class TunnelGeometry extends AbstractGeometry
     public void setViewportDimensions(int width, int height) {
         mViewportWidth = width;
         mViewportHeight = height;
+    }
+
+    public void setCameraDeviations(float xDeviation, float yDeviation) {
+        mXDeviation = xDeviation;
+        mYDeviations = yDeviation;
     }
 }

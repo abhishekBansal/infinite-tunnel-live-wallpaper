@@ -44,5 +44,8 @@
     <string name="pref_is_square_key">isSquarePrefKey</string>
     <string name="pref_is_square_title">Square Shape Tunnel</string>
     <string name="pref_is_square_summary">Check this to have rectangular tunnel</string>
+    <string name="pref_use_accelerometer_key">prefUseAccerometerKey</string>
+    <string name="pref_use_accelerometer_title">Virtual Reality Effect</string>
+    <string name="pref_use_accelerometer_summary">VR Effect when phone is tilted</string>
 
 </resources>

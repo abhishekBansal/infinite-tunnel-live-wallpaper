@@ -10,6 +10,12 @@
             android:title="@string/pref_double_tap_title"
             android:summary="@string/pref_double_tap_summary"/>
 
+        <CheckBoxPreference
+            android:key="@string/pref_use_accelerometer_key"
+            android:defaultValue="true"
+            android:title="@string/pref_use_accelerometer_title"
+            android:summary="@string/pref_use_accelerometer_summary"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_category_appearance">

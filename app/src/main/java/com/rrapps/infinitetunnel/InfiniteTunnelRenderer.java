@@ -19,7 +19,8 @@ import rrapps.sdk.opengl.geometry.ITexturedGeometry;
  * author: Abhishek Bansal
  */
 
-public class InfiniteTunnelRenderer implements GLWallpaperService.Renderer {
+public class InfiniteTunnelRenderer
+        implements GLWallpaperService.Renderer {
 
     /**
      * Store the model matrix. This matrix is used to move models from object space (where each model can be thought
@@ -194,4 +195,9 @@ public class InfiniteTunnelRenderer implements GLWallpaperService.Renderer {
         mFrameInterval = 1000 / fps;
     }
 
+    public void setAccelerometerValues(float valX, float valY) {
+        Log.v(InfiniteTunnelApplication.LogTag, "Acc val.x: " + valX +" val.y: " + valY);
+        if(mTunnelPlane != null)
+            ((TunnelGeometry)mTunnelPlane).setCameraDeviations(valX, valY);
+    }
 }

@@ -10,6 +10,10 @@ uniform sampler2D uTunnelTexture;
 // square realted variables
 uniform int uIsSquare;
 
+// accelerometer input
+uniform float uDeviationX;
+uniform float uDeviationY;
+
 void main(void)
 {
     //float speed = 1.0;
@@ -19,6 +23,9 @@ void main(void)
 
     // this is to fix aspect ratio of tunnel center
     p.y = p.y * uResolution.y/uResolution.x;
+
+    // apply accelerometer
+    p.x = p.x + clamp(uDeviationX, -0.7, 0.7);
 
     vec2 uv;
 
