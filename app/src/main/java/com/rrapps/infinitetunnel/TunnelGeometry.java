@@ -34,6 +34,9 @@ public class TunnelGeometry extends AbstractGeometry
     private int mResolutionUniformHandle;
     private int mBrightnessUniformHandle;
 
+    private int mIsSquareUniformHandle;
+    private int mSquareRadiusPowerUniformHandle;
+
     private float mTime = 0.0f;
     private float mViewportWidth = 480.0f;
     private float mViewportHeight = 800.0f;
@@ -103,6 +106,8 @@ public class TunnelGeometry extends AbstractGeometry
         mResolutionUniformHandle = GLES20.glGetUniformLocation(_program, "uResolution");
 
         mBrightnessUniformHandle = GLES20.glGetUniformLocation(_program, "uBrightness");
+
+        mIsSquareUniformHandle = GLES20.glGetUniformLocation(_program, "uIsSquare");
     }
 
     /* (non-Javadoc)
@@ -152,6 +157,13 @@ public class TunnelGeometry extends AbstractGeometry
 
         // update brightness
         GLES20.glUniform1f(mBrightnessUniformHandle, Settings.getInstance(mContext).getBrightness());
+
+        // see if its a square tunnel
+        boolean isSquare = Settings.getInstance(mContext).isSquareShapedTunnel();
+        if(isSquare)
+            GLES20.glUniform1i(mIsSquareUniformHandle, 1);
+        else
+            GLES20.glUniform1i(mIsSquareUniformHandle, 0);
 
         // Draw the tunnel
         GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 6);

@@ -44,6 +44,12 @@
             robobunny:unitsRight=""
             />
 
+        <CheckBoxPreference
+            android:key="@string/pref_is_square_key"
+            android:defaultValue="false"
+            android:title="@string/pref_is_square_title"
+            android:summary="@string/pref_is_square_summary"/>
+
     </PreferenceCategory>
 
 </PreferenceScreen>

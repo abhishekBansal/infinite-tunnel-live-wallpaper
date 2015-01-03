@@ -73,7 +73,7 @@ public class Settings {
 
     /**
      *
-     * @return bright ness in range of (0.3, 1.3)
+     * @return brightness in range of (0.3, 1.3)
      */
     public float getBrightness() {
         int brightness = mSharedPrefs.getInt(mContext.getString(R.string.brightness_pref_key), 5);
@@ -83,5 +83,9 @@ public class Settings {
 
     public boolean getSettingsOnDoubleTapPreference() {
         return mSharedPrefs.getBoolean(mContext.getString(R.string.pref_double_tap_key), true);
+    }
+
+    public boolean isSquareShapedTunnel() {
+        return mSharedPrefs.getBoolean(mContext.getString(R.string.pref_is_square_key), false);
     }
 }

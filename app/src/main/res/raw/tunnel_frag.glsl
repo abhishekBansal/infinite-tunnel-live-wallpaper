@@ -7,6 +7,9 @@ uniform float uBrightness;
 uniform vec2 uResolution;
 uniform sampler2D uTunnelTexture;
 
+// square realted variables
+uniform int uIsSquare;
+
 void main(void)
 {
     //float speed = 1.0;
@@ -26,7 +29,14 @@ void main(void)
     float a = atan(p.y/p.x);
     
     // distance of point from origin
-    float r = length(p);
+    float r;
+    
+    float power = 3.0;
+    if(uIsSquare == 0)
+        r = length(p); // circle
+    else
+        // http://en.wikipedia.org/wiki/Minkowski_distance
+        r = pow( pow(p.x*p.x,power) + pow(p.y*p.y,power), 1.0/(2.0*power) );
 
     // note that uv are from lower left corner and should be in 0-1
     // r is in range [0, sqrt(2)]
@@ -41,6 +51,9 @@ void main(void)
     uv.x = uv.x + scaledTime;
     
     // multiplication by r to give a darkened effect  in center
+    if(uIsSquare == 1)
+        r = smoothstep(0.1, 1.0, r);
+
     vec3 col = texture2D(uTunnelTexture, uv).xyz * r;
     
     gl_FragColor = vec4(col,1.0) * uBrightness;

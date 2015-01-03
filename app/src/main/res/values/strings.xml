@@ -41,5 +41,8 @@
     <string name="pref_double_tap_key">prefOnDoubleTapKey</string>
     <string name="pref_double_tap_title">Settings on Double Tap</string>
     <string name="pref_double_tap_summary">Open Settings Window on Double Tap</string>
+    <string name="pref_is_square_key">isSquarePrefKey</string>
+    <string name="pref_is_square_title">Square Shape Tunnel</string>
+    <string name="pref_is_square_summary">Check this to have rectangular tunnel</string>
 
 </resources>
