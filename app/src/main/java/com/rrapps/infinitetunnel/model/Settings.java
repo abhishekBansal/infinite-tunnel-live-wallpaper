@@ -13,6 +13,7 @@ import com.rrapps.infinitetunnel.R;
 public class Settings {
 
     private static String IS_TEXTURE_CHANGED_KEY = "IsTextureChangedPrefKey";
+    private static String IS_HIGHP_SUPPORTED_KEY = "IsHighPrecisionSupportedPrefKey";
     private Settings(Context context) {
         mContext = context;
         mSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -91,5 +92,18 @@ public class Settings {
 
     public boolean isCenterBright() {
         return mSharedPrefs.getBoolean(mContext.getString(R.string.pref_is_center_bright_key), false);
+    }
+
+    /**
+     * returns stored information about high precision support in fragment shader
+     */
+    public boolean isHighPrecisionSupported() {
+        return mSharedPrefs.getBoolean(IS_HIGHP_SUPPORTED_KEY, false);
+    }
+
+    public void setIsHighPrecisionSupported(boolean isHighPrecisionSupported) {
+        mSharedPrefs.edit()
+                .putBoolean(IS_HIGHP_SUPPORTED_KEY, isHighPrecisionSupported)
+                .apply();
     }
 }

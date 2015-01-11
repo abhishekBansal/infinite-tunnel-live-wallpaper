@@ -94,6 +94,21 @@ public class InfiniteTunnelRenderer
         mTunnelPlane.setTextureEnabled(true);
         mTunnelPlane.loadTextureFromResource(getContext(),
                                             Settings.getInstance(getContext()).getCurrentTextureResId());
+
+        int [] range =  new int[2];
+        int [] precision =  new int[1];
+
+        GLES20.glGetShaderPrecisionFormat(GLES20.GL_FRAGMENT_SHADER,
+                GLES20.GL_HIGH_FLOAT,
+                range, 0,
+                precision, 0);
+        if(precision[0] == 0) {
+            Log.i(InfiniteTunnelApplication.LogTag, "High Precision not supported on this device");
+            Settings.getInstance(getContext()).setIsHighPrecisionSupported(false);
+        } else {
+            Log.i(InfiniteTunnelApplication.LogTag, "High Precision is supported on this device");
+            Settings.getInstance(getContext()).setIsHighPrecisionSupported(true);
+        }
     }
 
     @Override
