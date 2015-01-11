@@ -2,18 +2,30 @@
 //      https://www.shadertoy.com/view/Ms2SWW
 precision mediump float;
 uniform float uTime;
+uniform float uSpeed;
+uniform float uBrightness;
 uniform vec2 uResolution;
 uniform sampler2D uTunnelTexture;
 
+// square realted variables
+uniform int uIsSquare;
+
+// accelerometer input
+uniform float uDeviationX;
+uniform float uDeviationY;
+
 void main(void)
 {
-    float speed = 1.0;
-    float scaledTime = uTime * speed;
+    //float speed = 1.0;
+    float scaledTime = uTime * uSpeed;
     // clamp pixel posiiton in [-1,1]
     vec2 p = -1.0 + 2.0 * gl_FragCoord.xy / uResolution.xy;
 
     // this is to fix aspect ratio of tunnel center
     p.y = p.y * uResolution.y/uResolution.x;
+
+    // apply accelerometer
+    p.x = p.x + clamp(uDeviationX, -0.7, 0.7);
 
     vec2 uv;
 
@@ -24,7 +36,14 @@ void main(void)
     float a = atan(p.y/p.x);
     
     // distance of point from origin
-    float r = length(p);
+    float r;
+    
+    float power = 3.0;
+    if(uIsSquare == 0)
+        r = length(p); // circle
+    else
+        // http://en.wikipedia.org/wiki/Minkowski_distance
+        r = pow( pow(p.x*p.x,power) + pow(p.y*p.y,power), 1.0/(2.0*power) );
 
     // note that uv are from lower left corner and should be in 0-1
     // r is in range [0, sqrt(2)]
@@ -36,10 +55,13 @@ void main(void)
     uv.y = a/(3.1416);
     
     // add global time for a moving tunnel
-    uv.x = uv.x + scaledTime/2.0;
+    uv.x = uv.x + scaledTime;
     
     // multiplication by r to give a darkened effect  in center
+    if(uIsSquare == 1)
+        r = smoothstep(0.1, 1.0, r);
+
     vec3 col = texture2D(uTunnelTexture, uv).xyz * r;
     
-    gl_FragColor = vec4(col,1.0);
+    gl_FragColor = vec4(col,1.0) * uBrightness;
 }

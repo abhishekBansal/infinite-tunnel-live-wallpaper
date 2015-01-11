@@ -1,129 +1,203 @@
 package com.rrapps.infinitetunnel;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import android.opengl.GLES20;
+import android.opengl.Matrix;
 import android.util.Log;
+
+import com.rrapps.infinitetunnel.model.Settings;
+
+import net.rbgrn.android.glwallpaperservice.GLWallpaperService;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import rajawali.materials.Material;
-import rajawali.materials.textures.ATexture;
-import rajawali.materials.textures.Texture;
-import rajawali.math.vector.Vector3;
-import rajawali.primitives.Plane;
-import rajawali.renderer.RajawaliRenderer;
+import rrapps.sdk.opengl.geometry.ITexturedGeometry;
+
 
 /**
  * author: Abhishek Bansal
  */
 
-public class InfiniteTunnelRenderer extends RajawaliRenderer implements
-        SharedPreferences.OnSharedPreferenceChangeListener {
+public class InfiniteTunnelRenderer
+        implements GLWallpaperService.Renderer {
 
-    public InfiniteTunnelRenderer(Context context) {
-        super(context);
-        PreferenceManager.getDefaultSharedPreferences(context).registerOnSharedPreferenceChangeListener(this);
-        setFrameRate(30);
+    /**
+     * Store the model matrix. This matrix is used to move models from object space (where each model can be thought
+     * of being located at the center of the universe) to world space.
+     */
+    private float[] mModelMatrix = new float[16];
+
+    /**
+     * Store the view matrix. This can be thought of as our camera. This matrix transforms world space to eye space;
+     * it positions things relative to our eye.
+     */
+    private float[] mViewMatrix = new float[16];
+
+    private float[] mModelViewMatrix = new float[16];
+
+    /** Store the projection matrix. This is used to project the scene onto a 2D viewport. */
+    private float[] mProjectionMatrix = new float[16];
+
+    /** Allocate storage for the final combined matrix. This will be passed into the shader program. */
+    private float[] mMVPMatrix = new float[16];
+
+    /**
+     * Tunnel plane
+     */
+    private ITexturedGeometry mTunnelPlane;
+
+    /**
+     * shader program
+     */
+    private int mViewportHeight;
+    private int mViewPortWidth;
+
+    public Context getContext() {
+        return mContext;
     }
 
-    Material mMaterial;
-    private final String TunnelTextureName = "uTunnelTexture";
-    public void initScene() {
-
-        getCurrentCamera().setPosition(0, 0, 2);
-        getCurrentCamera().setLookAt(0, 0, 0);
-
-        try {
-            float planeWidth = 1.0f;
-            float planeHeight = planeWidth * getViewportHeight() / getViewportWidth();
-            Plane fullScreenPlane =
-                    new Plane(planeWidth, planeHeight, 1, 1, Vector3.Axis.Z);
-            fullScreenPlane.setRotY(180);
-            TunnelVertexShader vertexShader = new TunnelVertexShader();
-
-            TunnelFragmentShader fragmentShader = new TunnelFragmentShader();
-            fragmentShader.setViewportHeight(getViewportHeight());
-            fragmentShader.setViewportWidth(getViewportWidth());
-
-            mMaterial = new Material(vertexShader, fragmentShader);
-            mMaterial.addTexture(new Texture(TunnelTextureName, R.drawable.bricks_stone));
-            mMaterial.enableTime(true);
-            fullScreenPlane.setMaterial(mMaterial);
-
-            getCurrentScene().addChild(fullScreenPlane);
-        } catch (ATexture.TextureException e) {
-            e.printStackTrace();
-        }
-    }
-
-	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-		super.onSurfaceCreated(gl, config);
-	}
-
-    private float mTime = 0.0f;
-	public void onDrawFrame(GL10 glUnused) {
-		super.onDrawFrame(glUnused);
-
-        mTime += .01f;
-
-        // tunnel gets fucked up in sometime if we don't do this
-        // as of now not sure if its a hack or its needed
-        // and 2 is just a magic number.. I got it by hit and trial
-        if(mTime > 2.0f)
-            mTime = 0.0f;
-
-        mMaterial.setTime(mTime);
-    }
-
-    private void _handleTextureChange() {
-        int currentTextureNo = InfiniteTunnelApplication.SettingsInstance.getCurrentTextureNo();
-
-        if(currentTextureNo == -1) {
-            Log.e(InfiniteTunnelApplication.LogTag, "Wrong texture Id(-1) from shared prefs");
-            InfiniteTunnelApplication.SettingsInstance.setTextureChanged(false);
-        }
-
-        // remove existing texture
-        if(mMaterial != null) {
-            for (ATexture texture : mMaterial.getTextureList())
-                mMaterial.removeTexture(texture);
-
-            ATexture newTexture;
-            int drawableId = 0;
-            switch (currentTextureNo) {
-                case 1:
-                    drawableId = R.drawable.brick_red;
-                    break;
-                case 2:
-                    drawableId = R.drawable.bricks_stone;
-                    break;
-                case 3:
-                    drawableId = R.drawable.nebula3;
-                    break;
-                case 4:
-                    drawableId = R.drawable.round_brick_tilable;
-                    break;
-                default:
-                    drawableId = R.drawable.bricks_stone;
-                    break;
-            }
-
-            newTexture = new Texture(TunnelTextureName, drawableId);
-            try {
-                mMaterial.addTexture(newTexture);
-            } catch (ATexture.TextureException e) {
-                Log.e(InfiniteTunnelApplication.LogTag, "Couldn't change texture " + currentTextureNo);
-                e.printStackTrace();
-            }
-        }
+    Context mContext;
+    InfiniteTunnelRenderer(Context context) {
+        mContext = context;
     }
 
     @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if(key.equals(getContext().getString(R.string.texture_pref_key))) {
-            _handleTextureChange();
+    public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+        Log.v(InfiniteTunnelApplication.LogTag, "onSurfaceCreated");
+        // sabse pahele bijli bachao
+        setFrameRate(30);
+        GLES20.glClearColor(0.2f, 0.4f, 0.2f, 1f);
+
+        // Position the eye behind the origin.
+        final float eyeX = 0.0f;
+        final float eyeY = 0.0f;
+        final float eyeZ = 1.45f;
+
+        // We are looking toward the distance
+        final float lookX = 0.0f;
+        final float lookY = 0.0f;
+        final float lookZ = 0.0f;
+
+        // Set our up vector. This is where our head would be pointing were we holding the camera.
+        final float upX = 0.0f;
+        final float upY = 1.0f;
+        final float upZ = 0.0f;
+
+        // Set the view matrix. This matrix can be said to represent the camera position.
+        // NOTE: In OpenGL 1, a ModelView matrix is used, which is a combination of a model and
+        // view matrix. In OpenGL 2, we can keep track of these matrices separately if we choose.
+        Matrix.setLookAtM(mViewMatrix, 0, eyeX, eyeY, eyeZ, lookX, lookY, lookZ, upX, upY, upZ);
+
+        // initialize plane
+        mTunnelPlane = new TunnelGeometry(getContext());
+        mTunnelPlane.setTextureEnabled(true);
+        mTunnelPlane.loadTextureFromResource(getContext(),
+                                            Settings.getInstance(getContext()).getCurrentTextureResId());
+    }
+
+    @Override
+    public void onSurfaceChanged(GL10 gl, int width, int height) {
+        Log.v(InfiniteTunnelApplication.LogTag, "onSurfaceChanged Ratio" + (float)width/height);
+        // Set the OpenGL viewport to the same size as the surface.
+        GLES20.glViewport(0, 0, width, height);
+        mViewPortWidth = width;
+        mViewportHeight = height;
+        // Create a new perspective projection matrix. The height will stay the same
+        // while the width will vary as per aspect ratio.
+        final float ratio = (float) width / height;
+        final float left = -ratio;
+        final float right = ratio;
+        final float bottom = -1.0f;
+        final float top = 1.0f;
+        final float near = 1.0f;
+        final float far = 10.0f;
+
+        Matrix.frustumM(mProjectionMatrix, 0, left, right, bottom, top, near, far);
+
+        ((TunnelGeometry)mTunnelPlane).setViewportDimensions(width, height);
+
+        // Position the eye behind the origin.
+        final float eyeX = 0.0f;
+        final float eyeY = 0.0f;
+
+        final float eyeZ;
+        if(ratio <= 1)
+            eyeZ = 1.45f;
+        else
+            eyeZ = 1.01f;
+
+        // We are looking toward the distance
+        final float lookX = 0.0f;
+        final float lookY = 0.0f;
+        final float lookZ = -1.0f;
+
+        // Set our up vector. This is where our head would be pointing were we holding the camera.
+        final float upX = 0.0f;
+        final float upY = 1.0f;
+        final float upZ = 0.0f;
+
+        // Set the view matrix. This matrix can be said to represent the camera position.
+        // NOTE: In OpenGL 1, a ModelView matrix is used, which is a combination of a model and
+        // view matrix. In OpenGL 2, we can keep track of these matrices separately if we choose.
+        Matrix.setIdentityM(mViewMatrix, 0);
+        Matrix.setLookAtM(mViewMatrix, 0, eyeX, eyeY, eyeZ, lookX, lookY, lookZ, upX, upY, upZ);
+    }
+
+
+    @Override
+    public void onDrawFrame(GL10 gl) {
+        // get the time at the start of the frame
+        long time = System.currentTimeMillis();
+
+        GLES20.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
+
+        Matrix.setIdentityM(mModelMatrix, 0);
+        Matrix.setIdentityM(mModelViewMatrix, 0);
+        if(mViewportHeight > mViewPortWidth)
+            Matrix.scaleM(mModelMatrix, 0, 1.0f, (float)mViewportHeight/mViewPortWidth, 1.0f);
+        else
+            Matrix.scaleM(mModelMatrix, 0, (float)mViewPortWidth/mViewportHeight, 1.0f, 1.0f);
+
+        Matrix.multiplyMM(mModelViewMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);
+        Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mModelViewMatrix, 0);
+        mTunnelPlane.draw(mMVPMatrix);
+
+        // get the time taken to render the frame
+        long time2 = System.currentTimeMillis() - time;
+
+        // if time elapsed is less than the frame interval
+        if(time2 < mFrameInterval){
+            try {
+                // sleep the thread for the remaining time until the interval has elapsed
+                // let it sleep a little less(5 milis less)in order to save flickering
+                long timeout = mFrameInterval - time2 - 5;
+                if(timeout > 0)
+                    Thread.sleep(timeout);
+            } catch (InterruptedException e) {
+                // Thread error
+                e.printStackTrace();
+            }
+        } else {
+            // framerate is slower than desired
         }
+    }
+
+    /**
+     * Called when the engine is destroyed. Do any necessary clean up because
+     * at this point your renderer instance is now done for.
+     */
+    public void release() {
+    }
+
+    private long mFrameInterval; // the time it should take 1 frame to render
+    public void setFrameRate(long fps){
+        mFrameInterval = 1000 / fps;
+    }
+
+    public void setAccelerometerValues(float valX, float valY) {
+        Log.v(InfiniteTunnelApplication.LogTag, "Acc val.x: " + valX +" val.y: " + valY);
+        if(mTunnelPlane != null)
+            ((TunnelGeometry)mTunnelPlane).setCameraDeviations(valX, valY);
     }
 }

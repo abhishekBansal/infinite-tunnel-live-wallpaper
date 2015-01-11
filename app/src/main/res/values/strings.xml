@@ -22,7 +22,30 @@
     <string name="settings_title">Settings</string>
     <string name="settings_texture_list_summary">Choose an Image for Tunnel</string>
     <string name="texture_list_title">Select Image</string>
-    <string name="pref_category_title">Infinite Tunnel Wallpaper Settings</string>
+
+    <string name="pref_category_appearance">Appearance</string>
+    <string name="pref_category_general">General</string>
+
     <string name="texture_pref_key">texturePrefKey</string>
+    <string name="title_activity_preview">PreviewActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Wallpaper Settings</string>
+    <string name="set_wallpaper">Set Wallpaper</string>
+    <string name="preview">Preview</string>
+    <string name="speed">Speed</string>
+    <string name="speed_pref_summary">Adjust speed of moving tunnel</string>
+    <string name="speed_pref_key">speedPref</string>
+    <string name="brightness">Brightness</string>
+    <string name="brightness_pref_summary">Adjust Brightness of Wallpaper</string>
+    <string name="brightness_pref_key">brightnessPref</string>
+    <string name="pref_double_tap_key">prefOnDoubleTapKey</string>
+    <string name="pref_double_tap_title">Settings on Double Tap</string>
+    <string name="pref_double_tap_summary">Open Settings Window on Double Tap</string>
+    <string name="pref_is_square_key">isSquarePrefKey</string>
+    <string name="pref_is_square_title">Square Shape Tunnel</string>
+    <string name="pref_is_square_summary">Check this to have rectangular tunnel</string>
+    <string name="pref_use_accelerometer_key">prefUseAccerometerKey</string>
+    <string name="pref_use_accelerometer_title">Virtual Reality Effect</string>
+    <string name="pref_use_accelerometer_summary">VR Effect when phone is tilted</string>
 
 </resources>
