@@ -1,7 +1,9 @@
 package com.rrapps.infinitetunnel;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ConfigurationInfo;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
+import android.widget.Toast;
 
 import com.rrapps.infinitetunnel.model.Settings;
 
@@ -30,15 +33,35 @@ public class MyWallpaperService extends GLWallpaperService {
 
         WallpaperEngine() {
             super();
-            setEGLContextClientVersion(2);
-            mRenderer = new InfiniteTunnelRenderer(getApplicationContext());
-            setRenderer(mRenderer);
-            setRenderMode(RENDERMODE_CONTINUOUSLY);
         }
 
         @Override
         public void onCreate(SurfaceHolder surfaceHolder) {
             super.onCreate(surfaceHolder);
+
+            // Check if the system supports OpenGL ES 2.0.
+            final ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+            final ConfigurationInfo configurationInfo = activityManager.getDeviceConfigurationInfo();
+            final boolean supportsEs2 = configurationInfo.reqGlEsVersion >= 0x20000;
+
+            if (supportsEs2)
+            {
+                // Request an OpenGL ES 2.0 compatible context.
+                setEGLContextClientVersion(2);
+                mRenderer = new InfiniteTunnelRenderer(getApplicationContext());
+                setRenderer(mRenderer);
+                setRenderMode(RENDERMODE_CONTINUOUSLY);
+            }
+            else
+            {
+                // This is where you could create an OpenGL ES 1.x compatible
+                // renderer if you wanted to support both ES 1 and ES 2.
+                Toast.makeText(getApplicationContext(),
+                        "OpenGL ES 2 Not supported on your device ! Wallpaper will no function correctly",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+
 
             // Instantiate the gesture detector with the
             // application context and an implementation of
