@@ -88,4 +88,8 @@ public class Settings {
     public boolean isSquareShapedTunnel() {
         return mSharedPrefs.getBoolean(mContext.getString(R.string.pref_is_square_key), false);
     }
+
+    public boolean isCenterBright() {
+        return mSharedPrefs.getBoolean(mContext.getString(R.string.pref_is_center_bright_key), false);
+    }
 }

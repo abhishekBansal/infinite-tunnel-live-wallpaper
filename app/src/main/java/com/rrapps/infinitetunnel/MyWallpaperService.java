@@ -57,8 +57,9 @@ public class MyWallpaperService extends GLWallpaperService {
                 // This is where you could create an OpenGL ES 1.x compatible
                 // renderer if you wanted to support both ES 1 and ES 2.
                 Toast.makeText(getApplicationContext(),
-                        "OpenGL ES 2 Not supported on your device ! Wallpaper will no function correctly",
-                        Toast.LENGTH_LONG).show();
+                            "OpenGL ES 2 Not supported on your device ! Wallpaper will no function correctly",
+                            Toast.LENGTH_LONG).show();
+                // TO-DO show some user message when above toast is not showing up
                 return;
             }
 
@@ -80,15 +81,15 @@ public class MyWallpaperService extends GLWallpaperService {
         public void onVisibilityChanged(boolean visible) {
             super.onVisibilityChanged(visible);
 
-            if(visible) {
-                // initialize sensor
-                mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-                mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-                mAccVals = new float[3];
-                initializeAccelerometer();
-            } else {
-                deregisterAccelerometer();
-            }
+//            if(visible) {
+//                // initialize sensor
+//                mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+//                mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+//                mAccVals = new float[3];
+//                initializeAccelerometer();
+//            } else {
+//                deregisterAccelerometer();
+//            }
         }
 
         @Override
@@ -195,7 +196,7 @@ public class MyWallpaperService extends GLWallpaperService {
 
         // to smooth out
         private final float FILTERING_FACTOR = .3f;
-        private final float SENSITIVITY = 1.0f;
+        private final float SENSITIVITY = 5.0f;
         @Override
         public void onSensorChanged(SensorEvent event) {
             if (event.sensor.getType() != Sensor.TYPE_ACCELEROMETER)
@@ -207,9 +208,9 @@ public class MyWallpaperService extends GLWallpaperService {
             mAccVals[1] = (float) (event.values[1] * FILTERING_FACTOR
                                     + mAccVals[1] * (1.0 - FILTERING_FACTOR));
 
-            if(mRenderer != null)
-                mRenderer.setAccelerometerValues(event.values[1] - mAccVals[1] * SENSITIVITY,
-                                                 event.values[0] - mAccVals[0] * SENSITIVITY);
+//            if(mRenderer != null)
+//                mRenderer.setAccelerometerValues(event.values[1] - mAccVals[1] * SENSITIVITY,
+//                                                 event.values[0] - mAccVals[0] * SENSITIVITY);
 
 //        scene.camera().position.x = mAccVals.x * .2f;
 //        scene.camera().position.y = mAccVals.y * .2f;

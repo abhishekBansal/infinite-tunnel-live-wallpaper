@@ -56,6 +56,12 @@
             android:title="@string/pref_is_square_title"
             android:summary="@string/pref_is_square_summary"/>
 
+        <CheckBoxPreference
+            android:key="@string/pref_is_center_bright_key"
+            android:defaultValue="false"
+            android:title="@string/pref_is_center_bright_title"
+            android:summary="@string/pref_is_center_bright_summary"/>
+
     </PreferenceCategory>
 
 </PreferenceScreen>

@@ -47,5 +47,8 @@
     <string name="pref_use_accelerometer_key">prefUseAccerometerKey</string>
     <string name="pref_use_accelerometer_title">Virtual Reality Effect</string>
     <string name="pref_use_accelerometer_summary">VR Effect when phone is tilted</string>
+    <string name="pref_is_center_bright_key">prefIsCenterBrightKey</string>
+    <string name="pref_is_center_bright_title">Make Center Bright</string>
+    <string name="pref_is_center_bright_summary">Toggle Between Bright/Dark Center</string>
 
 </resources>

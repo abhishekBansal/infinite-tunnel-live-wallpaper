@@ -14,6 +14,9 @@ uniform int uIsSquare;
 uniform float uDeviationX;
 uniform float uDeviationY;
 
+// center bright or dark
+uniform int uIsCenterBright;
+
 void main(void)
 {
     //float speed = 1.0;
@@ -33,12 +36,12 @@ void main(void)
     // atan return values are in [-pi/2, pi/2]
     // original tutorial uses function atan(p.y, p.x) which gives a horizontal line
     // in left middle as artefact so i will keep this
-    float a = atan(p.y/p.x);
+    float a = atan(p.y, p.x);
     
     // distance of point from origin
     float r;
     
-    float power = 3.0;
+    float power = 4.0;
     if(uIsSquare == 0)
         r = length(p); // circle
     else
@@ -57,11 +60,19 @@ void main(void)
     // add global time for a moving tunnel
     uv.x = uv.x + scaledTime;
     
-    // multiplication by r to give a darkened effect  in center
     if(uIsSquare == 1)
         r = smoothstep(0.1, 1.0, r);
 
+    float brightness = uBrightness;
+    if(uIsCenterBright == 1)
+    {
+        r = 1.0 - r;
+        // pump up the brightness for better effect
+        brightness = brightness * 2.0;
+    }
+
+    // multiplication by r to give a darkened effect  in center
     vec3 col = texture2D(uTunnelTexture, uv).xyz * r;
     
-    gl_FragColor = vec4(col,1.0) * uBrightness;
+    gl_FragColor = vec4(col,1.0) * brightness;
 }

@@ -125,7 +125,7 @@ public class InfiniteTunnelRenderer
         if(ratio <= 1)
             eyeZ = 1.45f;
         else
-            eyeZ = 1.01f;
+            eyeZ = 1.001f;
 
         // We are looking toward the distance
         final float lookX = 0.0f;
