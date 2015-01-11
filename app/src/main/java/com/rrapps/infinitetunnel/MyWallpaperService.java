@@ -63,7 +63,6 @@ public class MyWallpaperService extends GLWallpaperService {
                 return;
             }
 
-
             // Instantiate the gesture detector with the
             // application context and an implementation of
             // GestureDetector.OnGestureListener

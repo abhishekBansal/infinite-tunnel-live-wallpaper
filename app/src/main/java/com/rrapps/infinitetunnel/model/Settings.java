@@ -94,6 +94,12 @@ public class Settings {
         return mSharedPrefs.getBoolean(mContext.getString(R.string.pref_is_center_bright_key), false);
     }
 
+    public void setCenterBright(boolean isCenterBright) {
+        mSharedPrefs.edit()
+                        .putBoolean(mContext.getString(R.string.pref_is_center_bright_key), isCenterBright)
+                        .apply();
+    }
+
     /**
      * returns stored information about high precision support in fragment shader
      */

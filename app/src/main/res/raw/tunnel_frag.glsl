@@ -1,6 +1,11 @@
 // Ref: http://adrianboeing.blogspot.in/2011/01/webgl-tunnel-effect-explained.html
 //      https://www.shadertoy.com/view/Ms2SWW
-precision mediump float;
+#ifdef GL_FRAGMENT_PRECISION_HIGH
+    precision highp float;
+#else
+    precision mediump float;
+#endif
+
 uniform float uTime;
 uniform float uSpeed;
 uniform float uBrightness;
