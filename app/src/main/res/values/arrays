@@ -15,6 +15,8 @@
         <item name="12">B/W Camouflage</item>
         <item name="13">Lava</item>
         <item name="14">Snow</item>
+        <item name="15">Grunge Star 1</item>
+        <item name="16">Grunge Star 2</item>
 
     </string-array>
 
@@ -33,6 +35,8 @@
         <item name="12">12</item>
         <item name="13">13</item>
         <item name="14">14</item>
+        <item name="15">15</item>
+        <item name="16">16</item>
 
 
     </string-array>

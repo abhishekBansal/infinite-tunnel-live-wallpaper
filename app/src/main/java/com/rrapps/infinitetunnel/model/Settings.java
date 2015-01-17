@@ -12,7 +12,6 @@ import com.rrapps.infinitetunnel.R;
  */
 public class Settings {
 
-    private static String IS_TEXTURE_CHANGED_KEY = "IsTextureChangedPrefKey";
     private static String IS_HIGHP_SUPPORTED_KEY = "IsHighPrecisionSupportedPrefKey";
     private Settings(Context context) {
         mContext = context;
@@ -67,6 +66,10 @@ public class Settings {
                 return R.drawable.lava;
             case 14:
                 return R.drawable.snow;
+            case 15:
+                return R.drawable.grunge_stars1;
+            case 16:
+                return R.drawable.grunge_stars6;
         }
 
         return R.drawable.brick_red;

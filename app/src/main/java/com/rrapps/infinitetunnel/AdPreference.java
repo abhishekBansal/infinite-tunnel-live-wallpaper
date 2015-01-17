@@ -34,7 +34,7 @@ public class AdPreference extends Preference {
         // Initiate a generic request to load it with an ad
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .addTestDevice("TA9330EH2B")
+                .addTestDevice("68A74D7F1A4E38CA91CED03280D3A263")
                 .build();
         adView.loadAd(adRequest);
 
