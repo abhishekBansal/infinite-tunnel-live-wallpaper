@@ -16,6 +16,8 @@ import com.google.android.gms.ads.AdView;
 
 public class AdPreference extends Preference {
 
+    private AdView mAdView;
+
     public AdPreference(Context context, AttributeSet attrs, int defStyle) {super    (context, attrs, defStyle);}
     public AdPreference(Context context, AttributeSet attrs) {super(context, attrs);}
     public AdPreference(Context context) {super(context);}
@@ -29,15 +31,33 @@ public class AdPreference extends Preference {
         // the context is a PreferenceActivity
         Activity activity = (Activity)getContext();
 
-        AdView adView = (AdView)view.findViewById(R.id.adMob);
+         mAdView = (AdView)view.findViewById(R.id.adMob);
 
         // Initiate a generic request to load it with an ad
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .addTestDevice("68A74D7F1A4E38CA91CED03280D3A263")
                 .build();
-        adView.loadAd(adRequest);
+        mAdView.loadAd(adRequest);
 
         return view;
+    }
+
+    public void onDestroy() {
+        if(mAdView != null) {
+            mAdView.destroy();
+        }
+    }
+
+    public void onResume() {
+        if(mAdView != null) {
+            mAdView.resume();
+        }
+    }
+
+    public void onPause() {
+        if(mAdView != null) {
+            mAdView.pause();
+        }
     }
 }

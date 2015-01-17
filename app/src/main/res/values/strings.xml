@@ -53,5 +53,7 @@
     <string name="pref_is_warp_mode_title">Time Warp Mode</string>
     <string name="pref_is_warp_mode_summary">Warp the time as in sci-fi movies</string>
     <string name="pref_is_warp_mode_key">prefIsWarpModeKey</string>
+    <string name="header_ad_pref_key">PrefAdMobHeaderBanner</string>
+    <string name="footer_ad_pref_key">PrefAdMobFooterBanner</string>
 
 </resources>

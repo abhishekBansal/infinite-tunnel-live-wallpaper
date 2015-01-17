@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.util.Log;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -17,6 +18,8 @@ public class SettingsActivity extends PreferenceActivity {
     CheckBoxPreference mCenterBrightPreference;
     CheckBoxPreference mSquareShapePreference;
     CheckBoxPreference mIsWarpModePreference;
+    AdPreference mHeaderAdPreference;
+    AdPreference mFooterAdPreference;
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         addPreferencesFromResource(R.xml.settings);
@@ -25,6 +28,8 @@ public class SettingsActivity extends PreferenceActivity {
         mCenterBrightPreference = (CheckBoxPreference)findPreference(getString(R.string.pref_is_center_bright_key));
         mSquareShapePreference = (CheckBoxPreference)findPreference(getString(R.string.pref_is_square_key));
         mIsWarpModePreference = (CheckBoxPreference)findPreference(getString(R.string.pref_is_warp_mode_key));
+        mHeaderAdPreference = (AdPreference)findPreference(getString(R.string.header_ad_pref_key));
+        mFooterAdPreference = (AdPreference)findPreference(getString(R.string.footer_ad_pref_key));
         final Settings settings = Settings.getInstance(this);
 
         /**
@@ -83,5 +88,27 @@ public class SettingsActivity extends PreferenceActivity {
         t.enableAdvertisingIdCollection(true);
         // Send a screen view.
         t.send(new HitBuilders.AppViewBuilder().build());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(InfiniteTunnelApplication.LogTag, "Destroying ad views");
+        mHeaderAdPreference.onDestroy();
+        mFooterAdPreference.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mHeaderAdPreference.onResume();
+        mFooterAdPreference.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mHeaderAdPreference.onPause();
+        mFooterAdPreference.onPause();
     }
 }
