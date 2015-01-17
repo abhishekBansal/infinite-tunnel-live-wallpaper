@@ -22,6 +22,8 @@ uniform float uDeviationY;
 // center bright or dark
 uniform int uIsCenterBright;
 
+uniform int uIsWarpMode;
+
 void main(void)
 {
     //float speed = 1.0;
@@ -45,13 +47,19 @@ void main(void)
     
     // distance of point from origin
     float r;
-    
-    float power = 4.0;
-    if(uIsSquare == 0)
-        r = length(p); // circle
+
+       
+    float power = 4.0;    
+    if(uIsWarpMode == 0) 
+    {
+        if(uIsSquare == 0)
+            r = length(p); // circle
+        else
+            // http://en.wikipedia.org/wiki/Minkowski_distance
+            r = pow( pow(p.x*p.x,power) + pow(p.y*p.y,power), 1.0/(2.0*power) );
+    }
     else
-        // http://en.wikipedia.org/wiki/Minkowski_distance
-        r = pow( pow(p.x*p.x,power) + pow(p.y*p.y,power), 1.0/(2.0*power) );
+        r = pow(p.x*p.x + p.y*p.y, 1.0/(2.0*power) );
 
     // note that uv are from lower left corner and should be in 0-1
     // r is in range [0, sqrt(2)]

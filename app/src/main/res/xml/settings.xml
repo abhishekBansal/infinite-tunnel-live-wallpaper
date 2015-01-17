@@ -60,6 +60,12 @@
             android:title="@string/pref_is_center_bright_title"
             android:summary="@string/pref_is_center_bright_summary"/>
 
+        <CheckBoxPreference
+            android:key="@string/pref_is_warp_mode_key"
+            android:defaultValue="false"
+            android:title="@string/pref_is_warp_mode_title"
+            android:summary="@string/pref_is_warp_mode_summary"/>
+
     </PreferenceCategory>
 
     <com.rrapps.infinitetunnel.AdPreference

@@ -127,4 +127,8 @@ public class Settings {
                 .putBoolean(IS_HIGHP_SUPPORTED_KEY, isHighPrecisionSupported)
                 .apply();
     }
+
+    public boolean isWarpMode() {
+        return mSharedPrefs.getBoolean(mContext.getString(R.string.pref_is_warp_mode_key), false);
+    }
 }

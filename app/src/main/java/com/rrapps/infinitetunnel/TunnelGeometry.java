@@ -36,6 +36,7 @@ public class TunnelGeometry extends AbstractGeometry
 
     private int mIsSquareUniformHandle;
     private int mIsBrightCenterUniformHandle;
+    private int mIsWarpModeUniformHandle;
 
     private int mXDeviationUniformHandle;
     private int mYDeviationUniformHandle;
@@ -117,6 +118,8 @@ public class TunnelGeometry extends AbstractGeometry
 
         mIsBrightCenterUniformHandle = GLES20.glGetUniformLocation(_program, "uIsCenterBright");
 
+        mIsWarpModeUniformHandle = GLES20.glGetUniformLocation(_program, "uIsWarpMode");
+
         //mXDeviationUniformHandle = GLES20.glGetUniformLocation(_program, "uDeviationX");
         //mYDeviationUniformHandle = GLES20.glGetUniformLocation(_program, "uDeviationY");
     }
@@ -182,6 +185,11 @@ public class TunnelGeometry extends AbstractGeometry
         else
             GLES20.glUniform1i(mIsBrightCenterUniformHandle, 0);
 
+        boolean isWarpMode = Settings.getInstance(mContext).isWarpMode();
+        if(isWarpMode)
+            GLES20.glUniform1i(mIsWarpModeUniformHandle, 1);
+        else
+            GLES20.glUniform1i(mIsWarpModeUniformHandle, 0);
         // set camera offsets
         // GLES20.glUniform1f(mXDeviationUniformHandle, mXDeviation);
 

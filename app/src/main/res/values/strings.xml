@@ -50,5 +50,8 @@
     <string name="pref_is_center_bright_key">prefIsCenterBrightKey</string>
     <string name="pref_is_center_bright_title">Make Center Bright</string>
     <string name="pref_is_center_bright_summary">Toggle Between Bright/Dark Center</string>
+    <string name="pref_is_warp_mode_title">Time Warp Mode</string>
+    <string name="pref_is_warp_mode_summary">Warp the time as in sci-fi movies</string>
+    <string name="pref_is_warp_mode_key">prefIsWarpModeKey</string>
 
 </resources>

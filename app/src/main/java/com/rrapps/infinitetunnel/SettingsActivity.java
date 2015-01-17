@@ -16,6 +16,7 @@ public class SettingsActivity extends PreferenceActivity {
 
     CheckBoxPreference mCenterBrightPreference;
     CheckBoxPreference mSquareShapePreference;
+    CheckBoxPreference mIsWarpModePreference;
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         addPreferencesFromResource(R.xml.settings);
@@ -23,6 +24,7 @@ public class SettingsActivity extends PreferenceActivity {
         // get references to preferences
         mCenterBrightPreference = (CheckBoxPreference)findPreference(getString(R.string.pref_is_center_bright_key));
         mSquareShapePreference = (CheckBoxPreference)findPreference(getString(R.string.pref_is_square_key));
+        mIsWarpModePreference = (CheckBoxPreference)findPreference(getString(R.string.pref_is_warp_mode_key));
         final Settings settings = Settings.getInstance(this);
 
         /**
@@ -47,6 +49,26 @@ public class SettingsActivity extends PreferenceActivity {
                     settings.setCenterBright(false);
                     mCenterBrightPreference.setEnabled(false);
                 }
+                return false;
+            }
+        });
+
+        if(mIsWarpModePreference.isChecked())
+            mSquareShapePreference.setEnabled(false);
+
+        mIsWarpModePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                boolean isChecked = ((CheckBoxPreference)preference).isChecked();
+                /**
+                 * if its warp mode then no point of toggling between square and cylindrical
+                 */
+                if(isChecked) {
+                    mSquareShapePreference.setEnabled(false);
+                } else {
+                    mSquareShapePreference.setEnabled(true);
+                }
+
                 return false;
             }
         });

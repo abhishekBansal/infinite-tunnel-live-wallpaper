@@ -14,3 +14,9 @@ TurboSquid Royalty Free License
 http://scaloperion.deviantart.com/art/Wrinkled-Brown-Silk-261523661
 http://websoulz.com/20-high-resolution-silk-and-sparkling-textures-freebie/
 http://designcoral.com/freebies/fabric-textures/
+http://www.starnetblog.com/tileable/seamless-cloudy-star-field-textures/
+
+OpenGameArt
+http://opengameart.org/sites/default/files/lavafull.jpg
+http://opengameart.org/node/7408
+http://opengameart.org/content/camouflage
