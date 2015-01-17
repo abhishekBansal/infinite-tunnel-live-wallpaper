@@ -2,6 +2,10 @@
                   xmlns:robobunny="http://robobunny.com"
     android:title="@string/settings_title" >
 
+    <com.rrapps.infinitetunnel.AdPreference
+        android:layout="@layout/ad_layout_header"
+        />
+
     <PreferenceCategory android:title="@string/pref_category_general">
 
         <CheckBoxPreference
@@ -63,5 +67,9 @@
             android:summary="@string/pref_is_center_bright_summary"/>
 
     </PreferenceCategory>
+
+    <com.rrapps.infinitetunnel.AdPreference
+        android:layout="@layout/ad_layout_footer"
+        />
 
 </PreferenceScreen>
