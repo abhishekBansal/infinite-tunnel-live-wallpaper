@@ -900,7 +900,7 @@ abstract class BaseConfigChooser implements GLSurfaceView.EGLConfigChooser {
     protected int mEGLContextClientVersion;
 
 	public BaseConfigChooser(int[] configSpec, int eglContextClientVersion) {
-		mConfigSpec = configSpec;
+		mConfigSpec = filterConfigSpec(configSpec);
         this.mEGLContextClientVersion = eglContextClientVersion;
 	}
 
