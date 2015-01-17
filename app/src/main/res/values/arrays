@@ -9,6 +9,13 @@
         <item name="6">Blue Tiles</item>
         <item name="7">Green Tiles</item>
         <item name="8">Wood</item>
+        <item name="9">Stars</item>
+        <item name="10">Stars 2</item>
+        <item name="11">Blue Camouflage</item>
+        <item name="12">B/W Camouflage</item>
+        <item name="13">Lava</item>
+        <item name="14">Snow</item>
+
     </string-array>
 
     <string-array name="TextureDrawables">
@@ -20,6 +27,14 @@
         <item name="6">6</item>
         <item name="7">7</item>
         <item name="8">8</item>
+        <item name="9">9</item>
+        <item name="10">10</item>
+        <item name="11">11</item>
+        <item name="12">12</item>
+        <item name="13">13</item>
+        <item name="14">14</item>
+
+
     </string-array>
 
 </resources>

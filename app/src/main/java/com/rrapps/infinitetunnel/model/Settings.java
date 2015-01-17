@@ -55,6 +55,18 @@ public class Settings {
                 return R.drawable.tiles_green_white;
             case 8:
                 return R.drawable.wood_fine_brown;
+            case 9:
+                return R.drawable.blue_stars1;
+            case 10:
+                return R.drawable.blue_stars2;
+            case 11:
+                return R.drawable.camouflage3;
+            case 12:
+                return R.drawable.camouflage4;
+            case 13:
+                return R.drawable.lava;
+            case 14:
+                return R.drawable.snow;
         }
 
         return R.drawable.brick_red;
