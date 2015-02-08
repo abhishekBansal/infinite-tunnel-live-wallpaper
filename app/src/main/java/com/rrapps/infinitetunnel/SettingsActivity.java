@@ -1,82 +1,42 @@
 package com.rrapps.infinitetunnel;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
-import android.preference.Preference;
-import android.preference.PreferenceActivity;
-import android.util.Log;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
-import com.rrapps.infinitetunnel.model.Settings;
 
-// Deprecated PreferenceActivity methods are used for API Level 10 (and lower) compatibility
-// https://developer.android.com/guide/topics/ui/settings.html#Overview
-@SuppressWarnings("deprecation")
-public class SettingsActivity extends PreferenceActivity {
+public class SettingsActivity extends Activity {
 
-    CheckBoxPreference mCenterBrightPreference;
-    CheckBoxPreference mSquareShapePreference;
-    CheckBoxPreference mIsWarpModePreference;
-    AdPreference mHeaderAdPreference;
-    AdPreference mFooterAdPreference;
+    AdView mHeaderAdView;
+    AdView mFooterAdView;
+
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-        addPreferencesFromResource(R.xml.settings);
+        setContentView(R.layout.activity_settings);
 
-        // get references to preferences
-        mCenterBrightPreference = (CheckBoxPreference)findPreference(getString(R.string.pref_is_center_bright_key));
-        mSquareShapePreference = (CheckBoxPreference)findPreference(getString(R.string.pref_is_square_key));
-        mIsWarpModePreference = (CheckBoxPreference)findPreference(getString(R.string.pref_is_warp_mode_key));
-        mHeaderAdPreference = (AdPreference)findPreference(getString(R.string.header_ad_pref_key));
-        mFooterAdPreference = (AdPreference)findPreference(getString(R.string.footer_ad_pref_key));
-        final Settings settings = Settings.getInstance(this);
+        mHeaderAdView = (AdView)findViewById(R.id.adMob_header);
+        mFooterAdView = (AdView)findViewById(R.id.adMob_footer);
 
-        /**
-         * square shape tunnel has known issues with medium p floats
-         * so disable center brightening on it if high precision is not supported
-         * @see http://stackoverflow.com/questions/27868158/open-gl-different-results-on-desktop-gpu-and-mobile-gpu
-         */
-        if(settings.isSquareShapedTunnel() && !settings.isHighPrecisionSupported())
-            mCenterBrightPreference.setEnabled(false);
+        // Initiate a generic request to load it with an ad
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice("68A74D7F1A4E38CA91CED03280D3A263")
+                .build();
+        mHeaderAdView.loadAd(adRequest);
 
-        mSquareShapePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                boolean isChecked = ((CheckBoxPreference)preference).isChecked();
-                /**
-                 * if high precision is supported then no issues in any case
-                 * or if its circular tunnel enable it, disable in all other cases
-                 */
-                if (settings.isHighPrecisionSupported() || !isChecked) {
-                    mCenterBrightPreference.setEnabled(true);
-                } else {
-                    settings.setCenterBright(false);
-                    mCenterBrightPreference.setEnabled(false);
-                }
-                return false;
-            }
-        });
+        AdRequest adRequest2 = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice("68A74D7F1A4E38CA91CED03280D3A263")
+                .build();
+        mFooterAdView.loadAd(adRequest2);
 
-        if(mIsWarpModePreference.isChecked())
-            mSquareShapePreference.setEnabled(false);
-
-        mIsWarpModePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                boolean isChecked = ((CheckBoxPreference)preference).isChecked();
-                /**
-                 * if its warp mode then no point of toggling between square and cylindrical
-                 */
-                if(isChecked) {
-                    mSquareShapePreference.setEnabled(false);
-                } else {
-                    mSquareShapePreference.setEnabled(true);
-                }
-
-                return false;
-            }
-        });
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, new SettingsFragment())
+                .commit();
 
         // google analytics setup
         // Get tracker.
@@ -91,24 +51,23 @@ public class SettingsActivity extends PreferenceActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d(InfiniteTunnelApplication.LogTag, "Destroying ad views");
-        mHeaderAdPreference.onDestroy();
-        mFooterAdPreference.onDestroy();
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
-        mHeaderAdPreference.onResume();
-        mFooterAdPreference.onResume();
+        mHeaderAdView.resume();
+        mFooterAdView.resume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mHeaderAdPreference.onPause();
-        mFooterAdPreference.onPause();
+        mHeaderAdView.pause();
+        mFooterAdView.pause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mHeaderAdView.destroy();
+        mFooterAdView.destroy();
     }
 }

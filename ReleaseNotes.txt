@@ -1,3 +1,22 @@
+Ver 0.7
+----------
+New Feature:
++ 8 New themes to choose from 
+
+Enhancement
++ Time warp mode
+
+BugFixes:
++ Minor bug fixes
+
+Ver 0.6
+---------
+New Feature:
++ Center can be toggled between bright and dark
+
+Bug Fixes:
++ Minor Bug Fixes
+
 Ver 0.5
 -------
 New Feature:

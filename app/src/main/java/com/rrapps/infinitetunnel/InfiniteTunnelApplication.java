@@ -33,7 +33,7 @@ public class InfiniteTunnelApplication extends android.app.Application {
         super.onCreate();
     }
 
-    synchronized Tracker getTracker(TrackerName trackerId) {
+    synchronized public Tracker getTracker(TrackerName trackerId) {
         if (!mTrackers.containsKey(trackerId)) {
             GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
             Tracker t = analytics.newTracker(PROPERTY_ID);
