@@ -27,3 +27,5 @@ build
 .project
 app/manifest-merger-debug-report.txt
 app/manifest-merger-release-report.txt
+.idea/instapk.xml
+instapk.log*

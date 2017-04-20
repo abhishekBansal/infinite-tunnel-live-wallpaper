@@ -2,38 +2,59 @@ package com.rrapps.infinitetunnel;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ShareActionProvider;
 
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
 public class SettingsActivity extends Activity {
 
+    private static final String PREF_LAUNCH_COUNT = "PREF_LAUNCH_COUNT";
     AdView mHeaderAdView;
     AdView mFooterAdView;
+    InterstitialAd mInterstitialAd;
+    SharedPreferences mPrefs;
 
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.activity_settings);
 
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
         mHeaderAdView = (AdView)findViewById(R.id.adMob_header);
         mFooterAdView = (AdView)findViewById(R.id.adMob_footer);
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-4933881591506889/5687718250");
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                if (mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
+                }
+            }
+        });
 
         // Initiate a generic request to load it with an ad
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .addTestDevice("68A74D7F1A4E38CA91CED03280D3A263")
+                .addTestDevice("47AA3E0D456FDDF9A212EA20E979FBD8")
                 .build();
         mHeaderAdView.loadAd(adRequest);
 
         AdRequest adRequest2 = new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .addTestDevice("68A74D7F1A4E38CA91CED03280D3A263")
+                .addTestDevice("47AA3E0D456FDDF9A212EA20E979FBD8")
                 .build();
         mFooterAdView.loadAd(adRequest2);
 
@@ -57,6 +78,11 @@ public class SettingsActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        incrementLaunchCount();
+        if(getLaunchCount() % 3 == 0) {
+            requestNewInterstitial();
+        }
+
         mHeaderAdView.resume();
         mFooterAdView.resume();
     }
@@ -92,11 +118,29 @@ public class SettingsActivity extends Activity {
         return true;
     }
 
+    private void requestNewInterstitial() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("47AA3E0D456FDDF9A212EA20E979FBD8")
+                .build();
+
+        mInterstitialAd.loadAd(adRequest);
+    }
+
     // Call to update the share intent
     private void setShareIntent(Intent shareIntent) {
         if (mShareActionProvider != null) {
             mShareActionProvider.setShareIntent(shareIntent);
         }
+    }
+
+    private int getLaunchCount() {
+        return mPrefs.getInt(PREF_LAUNCH_COUNT, 0);
+    }
+
+    private void incrementLaunchCount() {
+        int currentCount = getLaunchCount();
+        currentCount += 1;
+        mPrefs.edit().putInt(PREF_LAUNCH_COUNT, currentCount).apply();
     }
 
 }
