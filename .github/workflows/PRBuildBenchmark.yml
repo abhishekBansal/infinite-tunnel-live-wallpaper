@@ -8,7 +8,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  build-merge:
 
     runs-on: ubuntu-latest
 
@@ -16,16 +16,12 @@ jobs:
       # Clone repo
       - name: Clone Repo
         uses: actions/checkout@v2
-
-      # Clone submodules
-      - name: Clone Submodules
-        uses: actions/checkout@v2
         with:
           submodules: recursive
-          
+
       # Setup Python
-      - name: Install Python
-        run: sudo apt-get update && sudo apt-get install -qy python
+#      - name: Install Python
+#        run: sudo apt-get update && sudo apt-get install -qy python
 
       # Setup JDK on container
       - name: Set up JDK 1.8
@@ -39,5 +35,34 @@ jobs:
          source "$HOME/.sdkman/bin/sdkman-init.sh"
          sdk install gradleprofiler
          gradle-profiler --benchmark --scenario-file build_performance.scenarios --warmups 2 --iteration 5
+
+  build-head:
+    needs: build-merge
+    runs-on: ubuntu-latest
+
+    steps:
+      # Clone repo
+      - name: Clone Repo
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      # Setup Python
+#      - name: Install Python
+#        run: sudo apt-get update && sudo apt-get install -qy python
+
+      # Setup JDK on container
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
+      - name: Install SDKMAN, Gradle Profiler and Begin Profiling
+        run: |
+          curl -s "https://get.sdkman.io" | bash
+          source "$HOME/.sdkman/bin/sdkman-init.sh"
+          sdk install gradleprofiler
+          gradle-profiler --benchmark --scenario-file build_performance.scenarios --warmups 2 --iteration 5
 
          
