@@ -71,6 +71,21 @@ jobs:
           gradle-profiler --benchmark --scenario-file build_performance.scenarios --warmups 1 --iteration 1
 
       - uses: actions/upload-artifact@v2
+        name: Archive Benchmark Result File
         with:
           name: head-benchmark
           path: profile-out/benchmark.csv
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: merge-benchmark
+          path: profile-out-merge
+
+      - run: ls profile-out-merge
+        name: Debug step- Check if file was downloaded properly
+
+      - name: Print Difference
+        run: | 
+          chmod +x benchmark-difference.py
+          python benchmark-difference.py
+        
