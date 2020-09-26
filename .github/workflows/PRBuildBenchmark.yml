@@ -33,13 +33,11 @@ jobs:
         with:
           java-version: 1.8
           
-      - name: Install SDKMAN
+      - name: Install SDKMAN, Gradle Profiler and Begin Profiling
         run: |
          curl -s "https://get.sdkman.io" | bash
          source "$HOME/.sdkman/bin/sdkman-init.sh"
+         sdk install gradleprofiler
+         gradle-profiler --benchmark --scenario-file build_performance.scenarios --warmups 2 --iteration 5
 
-      - name: Install Gradle Profiler and Profile
-        run: |
-          sdk install gradleprofiler
-          gradle-profiler --benchmark --scenario-file build_performance.scenarios --warmups 2 --iteration 5
          
