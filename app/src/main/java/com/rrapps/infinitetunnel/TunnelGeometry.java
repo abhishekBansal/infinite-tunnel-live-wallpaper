@@ -5,8 +5,6 @@ import android.opengl.GLES20;
 
 import com.rrapps.infinitetunnel.model.Settings;
 
-import junit.framework.Assert;
-
 import rrapps.sdk.opengl.geometry.AbstractGeometry;
 import rrapps.sdk.opengl.shaders.IShader;
 import rrapps.sdk.opengl.shaders.Program;
@@ -89,14 +87,14 @@ public class TunnelGeometry extends AbstractGeometry
         int fragmentShaderHandle = fragmentShader.load(R.raw.tunnel_frag, getContext());
 
         if(vertexShaderHandle <=0)
-            Assert.fail("could not compile vertex shader");
+            throw new AssertionError("could not compile vertex shader");
 
         if(fragmentShaderHandle <=0)
-            Assert.fail("could not compile fragment shader");
+            throw new AssertionError("could not compile fragment shader");
 
         Program defaultProgram = new Program(vertexShaderHandle, fragmentShaderHandle);
         if(!defaultProgram.linkProgram())
-            Assert.fail("Could not link shader program");
+            throw new AssertionError("Could not link shader program");
         _program = defaultProgram.getID();
 
         // get handle to vertex shader's vPosition member

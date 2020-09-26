@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "934691956657",
+    "firebase_url": "https://infinite-tunnel-wallpaper.firebaseio.com",
+    "project_id": "infinite-tunnel-wallpaper",
+    "storage_bucket": "infinite-tunnel-wallpaper.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:934691956657:android:96502d81d6394a35e7bf90",
+        "android_client_info": {
+          "package_name": "com.rrapps.infinitetunnel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "934691956657-ob87scfbrtmf1blola2asdhkdlt9n5hm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQfE2l0dDt8eweYqMUAE8rIxfHHKfUTTA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "934691956657-ob87scfbrtmf1blola2asdhkdlt9n5hm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,10 +1,8 @@
 package com.rrapps.infinitetunnel;
 
-import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 
-import io.fabric.sdk.android.Fabric;
 import java.util.HashMap;
 
 /**
@@ -33,7 +31,6 @@ public class InfiniteTunnelApplication extends android.app.Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
     }
 
     synchronized public Tracker getTracker(TrackerName trackerId) {
