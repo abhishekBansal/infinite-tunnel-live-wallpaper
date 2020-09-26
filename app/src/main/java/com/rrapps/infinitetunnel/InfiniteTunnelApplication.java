@@ -1,5 +1,10 @@
 package com.rrapps.infinitetunnel;
 
+import android.util.Log;
+
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 
@@ -31,6 +36,12 @@ public class InfiniteTunnelApplication extends android.app.Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
     }
 
     synchronized public Tracker getTracker(TrackerName trackerId) {

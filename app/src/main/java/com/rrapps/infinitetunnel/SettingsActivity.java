@@ -46,16 +46,10 @@ public class SettingsActivity extends Activity {
         });
 
         // Initiate a generic request to load it with an ad
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .addTestDevice("47AA3E0D456FDDF9A212EA20E979FBD8")
-                .build();
+        AdRequest adRequest = new AdRequest.Builder().build();
         mHeaderAdView.loadAd(adRequest);
 
-        AdRequest adRequest2 = new AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .addTestDevice("47AA3E0D456FDDF9A212EA20E979FBD8")
-                .build();
+        AdRequest adRequest2 = new AdRequest.Builder().build();
         mFooterAdView.loadAd(adRequest2);
 
         getFragmentManager()
@@ -119,9 +113,7 @@ public class SettingsActivity extends Activity {
     }
 
     private void requestNewInterstitial() {
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice("47AA3E0D456FDDF9A212EA20E979FBD8")
-                .build();
+        AdRequest adRequest = new AdRequest.Builder().build();
 
         mInterstitialAd.loadAd(adRequest);
     }
