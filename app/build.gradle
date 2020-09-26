@@ -34,8 +34,8 @@ android {
 dependencies {
     implementation 'com.google.android.gms:play-services-analytics:17.0.0'
     implementation 'com.google.android.gms:play-services-ads:19.4.0'
-    implementation project(':ABGLUtils')
-    implementation project(':gLWallpaperService')
+    implementation project(path: ':ABGLUtils')
+    implementation project(path: ':GLWallpaperService')
     implementation 'com.google.firebase:firebase-crashlytics:17.2.1'
     implementation 'com.google.firebase:firebase-analytics:17.5.0'
 }
