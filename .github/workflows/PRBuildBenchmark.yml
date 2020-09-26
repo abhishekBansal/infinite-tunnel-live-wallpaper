@@ -37,9 +37,9 @@ jobs:
          gradle-profiler --benchmark --scenario-file build_performance.scenarios --warmups 0 --iteration 1
 
       - uses: actions/upload-artifact@v2
-         with:
-           name: merge-benchmark
-           path: profile-out/benchmark.csv
+        with:
+         name: merge-benchmark
+         path: profile-out/benchmark.csv
 
   build-head:
     needs: build-merge
@@ -71,8 +71,6 @@ jobs:
           gradle-profiler --benchmark --scenario-file build_performance.scenarios --warmups 0 --iteration 1
 
       - uses: actions/upload-artifact@v2
-         with:
-           name: merge-benchmark
-           path: profile-out/benchmark.csv
-
-         
+        with:
+          name: head-benchmark
+          path: profile-out/benchmark.csv
