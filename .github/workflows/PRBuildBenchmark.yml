@@ -34,7 +34,7 @@ jobs:
          curl -s "https://get.sdkman.io" | bash
          source "$HOME/.sdkman/bin/sdkman-init.sh"
          sdk install gradleprofiler
-         gradle-profiler --benchmark --scenario-file build_performance.scenarios --warmups 0 --iteration 1
+         gradle-profiler --benchmark --scenario-file build_performance.scenarios --warmups 1 --iteration 1
 
       - uses: actions/upload-artifact@v2
         with:
@@ -68,7 +68,7 @@ jobs:
           curl -s "https://get.sdkman.io" | bash
           source "$HOME/.sdkman/bin/sdkman-init.sh"
           sdk install gradleprofiler
-          gradle-profiler --benchmark --scenario-file build_performance.scenarios --warmups 0 --iteration 1
+          gradle-profiler --benchmark --scenario-file build_performance.scenarios --warmups 1 --iteration 1
 
       - uses: actions/upload-artifact@v2
         with:
