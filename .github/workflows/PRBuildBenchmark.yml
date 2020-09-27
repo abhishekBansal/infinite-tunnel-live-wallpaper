@@ -5,12 +5,23 @@ name: Java CI with Gradle
 
 on:
   pull_request:
-    branches: [ master ]
+    types: [opened]
+  issue_comment:
+    types: [created]
 
 jobs:
   build-merge:
 
     runs-on: ubuntu-latest
+
+    steps:
+      - uses: khan/pull-request-comment-trigger@master
+        id: check
+        with:
+          trigger: 'benchmark-build'
+
+      - run: 'echo Running Benchmark Now!'
+        if: steps.check.outputs.triggered == 'true'
 
     steps:
       # Clone repo
@@ -88,4 +99,3 @@ jobs:
         run: | 
           chmod +x benchmark-difference.py
           python benchmark-difference.py
-        
