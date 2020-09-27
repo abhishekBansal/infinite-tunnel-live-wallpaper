@@ -23,7 +23,6 @@ jobs:
       - run: 'echo Running Benchmark Now!'
         if: steps.check.outputs.triggered == 'true'
 
-    steps:
       # Clone repo
       - name: Clone Repo
         uses: actions/checkout@v2
