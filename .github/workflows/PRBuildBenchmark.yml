@@ -54,10 +54,11 @@ jobs:
     steps:
       # Clone repo
       - name: Clone Repo
-        uses: actions/checkout@v2
-        with:
-          submodules: recursive
-          ref: ${{ github.event.pull_request.base.sha }}
+      - run: git fetch --depth=1 origin +${{github.base_ref}}
+      #        uses: actions/checkout@v2
+#        with:
+#          submodules: recursive
+#          ref: ${{ github.event.pull_request.base.sha }}
 
       # Setup JDK on container
       - name: Set up JDK 1.8
