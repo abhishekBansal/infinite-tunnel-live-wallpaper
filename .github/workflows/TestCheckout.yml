@@ -31,7 +31,7 @@ jobs:
           ref: ${{ github.event.pull_request.base.sha }}
 
       - name: Print File Content
-          run: cat test.txt
+        run: cat test.txt
 
   head-commit:
     runs-on: ubuntu-latest
