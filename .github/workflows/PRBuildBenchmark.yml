@@ -48,14 +48,14 @@ jobs:
          path: profile-out/benchmark.csv
 
   build-base:
-    needs: build-merge
     runs-on: ubuntu-latest
 
     steps:
       # Clone repo
       - name: Clone Repo
+        uses: actions/checkout@v2
         run: git fetch --depth=1 origin +${{github.base_ref}}
-      #        uses: actions/checkout@v2
+
 #        with:
 #          submodules: recursive
 #          ref: ${{ github.event.pull_request.base.sha }}
@@ -88,6 +88,6 @@ jobs:
         name: Debug step- Check if file was downloaded properly
 
       - name: Print Difference
-        run: | 
+        run: |
           chmod +x benchmark-difference.py
           python benchmark-difference.py

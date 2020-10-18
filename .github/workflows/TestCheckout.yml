@@ -26,9 +26,7 @@ jobs:
       # Clone repo
       - name: Clone Repo
         uses: actions/checkout@v2
-        with:
-          submodules: recursive
-          ref: ${{ github.event.pull_request.base.sha }}
+        run: git fetch --depth=1 origin +${{github.base_ref}}
 
       - name: Print File Content
         run: cat test.txt
