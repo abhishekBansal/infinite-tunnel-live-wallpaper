@@ -32,3 +32,4 @@ instapk.log*
 .vscode/settings.json
 profile-out/benchmark.csv
 profile-out-merge/benchmark.csv
+benchmark-result.txt
