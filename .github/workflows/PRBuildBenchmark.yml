@@ -54,7 +54,7 @@ jobs:
     steps:
       # Clone repo
       - name: Clone Repo
-      - run: git fetch --depth=1 origin +${{github.base_ref}}
+        run: git fetch --depth=1 origin +${{github.base_ref}}
       #        uses: actions/checkout@v2
 #        with:
 #          submodules: recursive
