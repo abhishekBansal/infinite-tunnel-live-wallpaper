@@ -29,3 +29,6 @@ app/manifest-merger-debug-report.txt
 app/manifest-merger-release-report.txt
 .idea/instapk.xml
 instapk.log*
+.vscode/settings.json
+profile-out/benchmark.csv
+profile-out-merge/benchmark.csv
