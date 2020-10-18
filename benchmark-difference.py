@@ -6,13 +6,17 @@ def getResult(fileName):
         reader = csv.reader(f, skipinitialspace=True)
         return dict(reader)
 
-headResult = getResult('profile-out/benchmark.csv')
+baseResult = getResult('profile-out/benchmark.csv')
 mergeResult = getResult('profile-out-merge/benchmark.csv')
 
-headMean = headResult['mean']
-mergeMean = mergeResult['mean']
+baseMean = baseResult['mean']
+mergeMean = baseResult['mean']
 
-print "Branch Head Build Time: " + headMean + " | Base Branch Build Time: " + mergeMean
+buildStr = "Branch Head Build Time: " + mergeMean + " | Base Branch Build Time: " + baseMean
+# print result on console and write in a file
+print buildStr
+with open("benchmark-result.txt", 'w') as f:
+    f.write(buildStr)
 
 
 
