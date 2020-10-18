@@ -9,9 +9,8 @@ on:
 jobs:
 
   merge-commit:
-
     runs-on: ubuntu-latest
-
+    steps:
       # Clone merge commit
       - name: Clone Repo
         uses: actions/checkout@v2
@@ -23,7 +22,6 @@ jobs:
 
   base-commit:
     runs-on: ubuntu-latest
-
     steps:
       # Clone repo
       - name: Clone Repo
@@ -37,7 +35,6 @@ jobs:
 
   head-commit:
     runs-on: ubuntu-latest
-
     steps:
       # Clone repo
       - name: Clone Repo
