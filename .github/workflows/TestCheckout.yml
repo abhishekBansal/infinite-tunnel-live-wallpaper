@@ -1,0 +1,51 @@
+# This workflow will build a Java project with Gradle
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+
+name: Test Checkout
+
+on:
+  pull_request:
+
+jobs:
+
+  merge-commit:
+
+    runs-on: ubuntu-latest
+
+      # Clone merge commit
+      - name: Clone Repo
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+
+      - name: Print File Content
+        run: cat test.txt
+
+  base-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Clone repo
+      - name: Clone Repo
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+          ref: ${{ github.event.pull_request.base.sha }}
+
+      - name: Print File Content
+          run: cat test.txt
+
+  head-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Clone repo
+      - name: Clone Repo
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Print File Content
+        run: cat test.txt
+
