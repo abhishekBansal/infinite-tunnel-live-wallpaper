@@ -1,2 +1,2 @@
-this is master branch
-this is merge commit 1
+this is master branch but ahead
+this is merge commit 2
