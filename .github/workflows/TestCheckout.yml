@@ -9,7 +9,7 @@ on:
 
 jobs:
 
-  merge-commit:
+  head-ref:
     runs-on: ubuntu-latest
     steps:
       - uses: khan/pull-request-comment-trigger@master
@@ -19,17 +19,23 @@ jobs:
 
       - run: 'echo Running Benchmark Now!'
         if: steps.check.outputs.triggered == 'true'
+
+      - uses: xt0rted/pull-request-comment-branch@v1
+        id: comment-branch
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
 
       # Clone merge commit
       - name: Clone Repo
         uses: actions/checkout@v2
         with:
+          ref: ${{ steps.comment-branch.outputs.head_ref }}
           submodules: recursive
 
       - name: Print File Content
         run: cat test.txt
 
-  base-commit:
+  head-sha:
     runs-on: ubuntu-latest
     steps:
       - uses: khan/pull-request-comment-trigger@master
@@ -40,17 +46,22 @@ jobs:
       - run: 'echo Running Benchmark Now!'
         if: steps.check.outputs.triggered == 'true'
 
-      # Clone repo
+      - uses: xt0rted/pull-request-comment-branch@v1
+        id: comment-branch
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Clone merge commit
       - name: Clone Repo
         uses: actions/checkout@v2
         with:
+          ref: ${{ steps.comment-branch.outputs.head_sha }}
           submodules: recursive
-          ref: ${{ github.context.pull_request.base.sha }}
 
       - name: Print File Content
         run: cat test.txt
 
-  head-commit:
+  base-ref:
     runs-on: ubuntu-latest
     steps:
       - uses: khan/pull-request-comment-trigger@master
@@ -61,12 +72,43 @@ jobs:
       - run: 'echo Running Benchmark Now!'
         if: steps.check.outputs.triggered == 'true'
 
+      - uses: xt0rted/pull-request-comment-branch@v1
+        id: comment-branch
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Clone repo
+      - name: Clone Repo
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ steps.comment-branch.outputs.base_ref }}
+          submodules: recursive
+
+      - name: Print File Content
+        run: cat test.txt
+
+  base-sha:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: khan/pull-request-comment-trigger@master
+        id: check
+        with:
+          trigger: 'benchmark-build'
+
+      - run: 'echo Running Benchmark Now!'
+        if: steps.check.outputs.triggered == 'true'
+
+      - uses: xt0rted/pull-request-comment-branch@v1
+        id: comment-branch
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+
       # Clone repo
       - name: Clone Repo
         uses: actions/checkout@v2
         with:
           submodules: recursive
-          ref: ${{ github.context.pull_request.head.sha }}
+          ref: ${{ steps.comment-branch.outputs.base_sha }}
 
       - name: Print File Content
         run: cat test.txt
