@@ -15,9 +15,9 @@ Current Features:
 Get it on [Google Play](https://play.google.com/store/apps/details?id=com.rrapps.infinitetunnel)
 
 ## Screens
-|  |  |  |
-|---|---|---|
-| ![](/play_assets/blue_pottery.png) | ![](/play_assets/metal.png) | ![](/play_assets/bricks.png) | ![](/play_assets/nebula2.png) |
+|   |  |  |  |
+|---|---|---|---|
+| ![](/play_assets/animation.gif)| ![](/play_assets/blue_pottery.png) | ![](/play_assets/metal.png) | ![](/play_assets/bricks.png) | ![](/play_assets/nebula2.png) |
 
 ## Texture Attributions
 ### CGTextures
