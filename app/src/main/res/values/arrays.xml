@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="Textures">
+        <item name="1">Red Brick</item>
+        <item name="2">Stone Brick</item>
+        <item name="3">Metal</item>
+        <item name="4">Nebula</item>
+        <item name="5">Stone Wall</item>
+        <item name="6">Blue Tiles</item>
+        <item name="7">Green Tiles</item>
+        <item name="8">Wood</item>
+        <item name="9">Stars</item>
+        <item name="10">Stars 2</item>
+        <item name="11">Blue Camouflage</item>
+        <item name="12">B/W Camouflage</item>
+        <item name="13">Lava</item>
+        <item name="14">Snow</item>
+        <item name="15">Grunge Star 1</item>
+        <item name="16">Grunge Star 2</item>
+
+    </string-array>
+
+    <string-array name="TextureDrawables">
+        <item name="1">1</item>
+        <item name="2">2</item>
+        <item name="3">3</item>
+        <item name="4">4</item>
+        <item name="5">5</item>
+        <item name="6">6</item>
+        <item name="7">7</item>
+        <item name="8">8</item>
+        <item name="9">9</item>
+        <item name="10">10</item>
+        <item name="11">11</item>
+        <item name="12">12</item>
+        <item name="13">13</item>
+        <item name="14">14</item>
+        <item name="15">15</item>
+        <item name="16">16</item>
+
+
+    </string-array>
+
+</resources>
