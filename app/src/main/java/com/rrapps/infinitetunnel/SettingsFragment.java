@@ -8,8 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 import com.rrapps.infinitetunnel.model.Settings;
 
 /**
@@ -79,17 +77,6 @@ public class SettingsFragment extends PreferenceFragment {
                 return false;
             }
         });
-
-        // google analytics setup
-        // Get tracker.
-        Tracker t = ((InfiniteTunnelApplication) getActivity().getApplication()).getTracker(
-                InfiniteTunnelApplication.TrackerName.APP_TRACKER);
-        // Set screen name.
-        t.setScreenName("SettingsScreen");
-        // Enable Display Features.
-        t.enableAdvertisingIdCollection(true);
-        // Send a screen view.
-        t.send(new HitBuilders.AppViewBuilder().build());
     }
 
     @Override

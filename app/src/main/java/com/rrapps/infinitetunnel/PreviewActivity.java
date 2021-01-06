@@ -9,9 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-
 
 public class PreviewActivity extends Activity {
 
@@ -52,24 +49,5 @@ public class PreviewActivity extends Activity {
                                     Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
         finish();
-    }
-
-    @Override
-    protected void onResume() {
-        int code = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-        switch (code) {
-            case ConnectionResult.SUCCESS:
-                break;
-
-            case ConnectionResult.SERVICE_MISSING:
-            case ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED:
-            case ConnectionResult.SERVICE_DISABLED:
-                GooglePlayServicesUtil.getErrorDialog(code, this, 0).show();
-                break;
-
-            default:
-                break;
-        }
-        super.onResume();
     }
 }
